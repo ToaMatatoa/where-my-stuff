@@ -1,38 +1,41 @@
 This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+* [/composeApp](./composeApp/src) is the application module and the Compose Multiplatform entry point for
+  every target. It holds the screens/UI and wires the other modules together. It contains several source sets:
+  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that's common for all targets.
+  - Platform folders hold Kotlin code compiled for only the platform indicated by the folder name.
+    For example, [iosMain](./composeApp/src/iosMain/kotlin) is where you'd put iOS-specific calls (e.g.
+    Apple's CoreCrypto), [androidMain](./composeApp/src/androidMain/kotlin) holds the Android `MainActivity`
+    and manifest, and [desktopMain](./composeApp/src/desktopMain/kotlin) holds the Desktop (JVM) entry point.
 
-* [/sharedLogic](./sharedLogic/src) is for the code that will be shared between app targets in the project.
-  The most important subfolder is [commonMain](./sharedLogic/src/commonMain/kotlin). If preferred, you
-  can add code to the platform-specific folders here too.
+The shared code is split into layered multiplatform library modules:
 
-* [/sharedUI](./sharedUI/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./sharedUI/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./sharedUI/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./sharedUI/src/jvmMain/kotlin)
-    folder is the appropriate location.
+* [/designSystem](./designSystem/src) — colors, typography/fonts, and simple reusable UI elements
+  (`AppTheme`, design tokens). No module dependencies.
+* [/core](./core/src) — data layer: Room, the local database, data models, and repositories
+  (interface + implementation). No module dependencies.
+* [/domain](./domain/src) — business logic: use cases that call into `:core`. Depends on `:core`.
+
+Dependency direction: `composeApp → designSystem, domain` and `domain → core`.
+
+* [/iosApp](./iosApp/iosApp) contains the iOS application entry point. Even though the UI is shared with
+  Compose Multiplatform, this thin SwiftUI host is required, and it's where you'd add any native SwiftUI code.
 
 ### Running the apps
 
 Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
 
-- Android app: `./gradlew :androidApp:assembleDebug`
-- Desktop app:
-  - Hot reload: `./gradlew :desktopApp:hotRun --auto`
-  - Standard run: `./gradlew :desktopApp:run`
+- Android app: `./gradlew :composeApp:assembleDebug`
+- Desktop app: `./gradlew :composeApp:run`
 - iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
 
 ### Running tests
 
 Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
 
-- Android tests: `./gradlew :sharedUI:testAndroidHostTest :sharedLogic:testAndroidHostTest`
-- Desktop tests: `./gradlew :sharedUI:jvmTest :sharedLogic:jvmTest`
-- iOS tests: `./gradlew :sharedLogic:iosSimulatorArm64Test`
+- Android tests: `./gradlew :composeApp:testDebugUnitTest`
+- Desktop tests: `./gradlew :composeApp:desktopTest`
+- iOS tests: `./gradlew :composeApp:iosSimulatorArm64Test`
 
 ---
 
