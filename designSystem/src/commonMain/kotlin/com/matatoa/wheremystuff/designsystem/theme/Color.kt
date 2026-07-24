@@ -1,8 +1,102 @@
 package com.matatoa.wheremystuff.designsystem.theme
 
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-// Brand palette — replace these placeholders with the project's real colors.
-val Primary = Color(0xFF6650A4)
-val Secondary = Color(0xFF625B71)
-val Tertiary = Color(0xFF7D5260)
+// ──────────────────────────────────────────────
+// Brand palette — the raw "Where My Stuff" greens.
+// These are the source-of-truth swatches; the semantic
+// roles below reference them so nothing is hard-coded twice.
+// ──────────────────────────────────────────────
+
+/** Near-white mint — the app canvas. */
+val CanvasMint = Color(0xFFF6FFF8)
+
+/** Very pale cyan-mint — raised cards / list items. */
+val MistPale = Color(0xFFEAF4F4)
+
+/** Pale mint — chips, dividers, selected rows. */
+val MintPale = Color(0xFFCCE3DE)
+
+/** Medium sage — soft button containers, secondary accent. */
+val SageMuted = Color(0xFFA4C3B2)
+
+/** Deep sage — primary accent: buttons, FAB, list section titles. */
+val SageDeep = Color(0xFF6B9080)
+
+// Added supporting tones (same green family, for text & states)
+
+/** Soft near-black green — titles & primary text. Reads as black, feels calmer. */
+val InkGreen = Color(0xFF1E2B25)
+
+/** Muted slate-green — secondary text, captions, item counts. */
+val SlateSage = Color(0xFF4E655B)
+
+/** Sage-tinted hairline — borders, dividers, text-field outlines. */
+val SageOutline = Color(0xFFB2CCC1)
+
+/** Complementary terracotta — destructive actions / errors. */
+val Terracotta = Color(0xFFB4503B)
+
+// ──────────────────────────────────────────────
+// Semantic roles — one scheme, used for both light and dark system modes.
+// ──────────────────────────────────────────────
+
+/** Main screen background (and top bar, which blends into it). */
+val Background = CanvasMint
+
+/** Titles, top-bar text, and body text on the background. */
+val OnBackground = InkGreen
+
+/** Cards, bottom sheets, dialogs, list item rows. */
+val Surface = MistPale
+
+/** Primary text inside cards / list items. */
+val OnSurface = InkGreen
+
+/** Inactive chips, dividers, selected/subtle containers. */
+val SurfaceVariant = MintPale
+
+/** Secondary text on surfaces (captions, item counts). */
+val OnSurfaceVariant = SlateSage
+
+/** Accent buttons, FAB, list section titles, selected tab icon. */
+val Primary = SageDeep
+
+/** Text / icon on top of primary-colored surfaces (e.g. FAB icon). */
+val OnPrimary = CanvasMint
+
+/** Soft highlight behind icons, selected chip / secondary button background. */
+val PrimaryContainer = SageMuted
+
+/** Text / icon on top of the soft primary container. */
+val OnPrimaryContainer = InkGreen
+
+/** Borders, thin dividers, text-field outlines. */
+val Outline = SageOutline
+
+/** Destructive actions (delete a place / item). */
+val Error = Terracotta
+
+/** Text / icon on top of error-colored surfaces. */
+val OnError = CanvasMint
+
+// ──────────────────────────────────────────────
+// The single Material 3 color scheme consumed by WhereMyStuffTheme.
+// ──────────────────────────────────────────────
+
+val AppColorScheme = lightColorScheme(
+    background = Background,
+    onBackground = OnBackground,
+    surface = Surface,
+    onSurface = OnSurface,
+    surfaceVariant = SurfaceVariant,
+    onSurfaceVariant = OnSurfaceVariant,
+    primary = Primary,
+    onPrimary = OnPrimary,
+    primaryContainer = PrimaryContainer,
+    onPrimaryContainer = OnPrimaryContainer,
+    outline = Outline,
+    error = Error,
+    onError = OnError,
+)
