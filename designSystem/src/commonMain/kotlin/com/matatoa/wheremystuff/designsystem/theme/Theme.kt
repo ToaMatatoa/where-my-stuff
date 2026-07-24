@@ -15,7 +15,7 @@ fun WhereMyStuffTheme(
 ) {
     MaterialTheme(
         colorScheme = AppColorScheme,
-        typography = AppTypography,
+        typography = AppTypography(),
         content = content,
     )
 }
