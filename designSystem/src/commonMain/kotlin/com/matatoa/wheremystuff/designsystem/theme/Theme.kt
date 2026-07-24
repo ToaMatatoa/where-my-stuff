@@ -19,11 +19,11 @@ private val DarkColors = darkColorScheme(
 )
 
 /**
- * App-wide theme wrapper. Wrap screens in [AppTheme] instead of using [MaterialTheme] directly
+ * App-wide theme wrapper. Wrap screens in [WhereMyStuffTheme] instead of using [MaterialTheme] directly
  * so colors/typography stay centralized here.
  */
 @Composable
-fun AppTheme(
+fun WhereMyStuffTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
