@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -24,5 +26,18 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
+        commonMain.dependencies {
+            // room
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
+        }
     }
+}
+
+dependencies {
+    ksp(libs.room.compiler)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
