@@ -32,3 +32,6 @@ plugins {
 }
 
 include(":composeApp")
+include(":designSystem")
+include(":core")
+include(":domain")

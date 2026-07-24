@@ -31,6 +31,9 @@ kotlin {
         val desktopMain by getting
 
         commonMain.dependencies {
+            implementation(project(":designSystem"))
+            implementation(project(":domain"))
+
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
