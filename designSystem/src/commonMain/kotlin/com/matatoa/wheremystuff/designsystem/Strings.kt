@@ -12,6 +12,7 @@ object Strings {
         const val TOP_BAR_TITLE = "Where my Stuff"
         const val BACK = "Back"
         const val SEARCH = "Search"
+        const val PLACE_ICON = "Place icon"
     }
 
     object StartScreen {
