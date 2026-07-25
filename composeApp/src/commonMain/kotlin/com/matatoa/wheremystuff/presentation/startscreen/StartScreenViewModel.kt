@@ -33,13 +33,10 @@ class StartScreenViewModel(
             initialValue = StartScreenState(isLoading = true)
         )
 
-    fun addPlace() {
+    fun addPlace(place: PlaceData) {
         viewModelScope.launch {
             addPlaceUseCase.invoke(
-                place = PlaceData(
-                    name = "Home",
-                    iconName = "Home"
-                )
+                place = place
             )
         }
     }
