@@ -196,7 +196,7 @@ private fun StartScreenBaseCompletedListItem(
     Column(
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(top = 16.dp)
     ) {
         HorizontalDivider(
@@ -254,24 +254,14 @@ fun StartScreenPreview() {
                         iconName = ""
                     ),
                     PlaceData(
-                        id = 2,
-                        name = "Flat",
-                        iconName = "Flat"
-                    ),
-                    PlaceData(
                         id = 3,
-                        name = "Balcony",
-                        iconName = "Balcony"
+                        name = "House",
+                        iconName = "House"
                     ),
                     PlaceData(
                         id = 4,
-                        name = "Big box",
-                        iconName = "Box"
-                    ),
-                    PlaceData(
-                        id = 5,
-                        name = "Countryside House",
-                        iconName = "Tractor"
+                        name = "Bank",
+                        iconName = ""
                     )
                 )
             )

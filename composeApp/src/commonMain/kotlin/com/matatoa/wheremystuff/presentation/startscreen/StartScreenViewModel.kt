@@ -30,12 +30,8 @@ class StartScreenViewModel(
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
-            initialValue = StartScreenState()
+            initialValue = StartScreenState(isLoading = true)
         )
-
-    init {
-        //addPlace()
-    }
 
     fun addPlace() {
         viewModelScope.launch {

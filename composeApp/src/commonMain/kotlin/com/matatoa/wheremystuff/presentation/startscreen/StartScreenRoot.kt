@@ -1,7 +1,5 @@
 package com.matatoa.wheremystuff.presentation.startscreen
 
-import androidx.compose.foundation.background
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -15,6 +13,5 @@ fun StartScreenRoot(modifier: Modifier = Modifier) {
     StartScreen(
         state = state,
         modifier = modifier
-            .background(color = MaterialTheme.colorScheme.background)
     )
 }
