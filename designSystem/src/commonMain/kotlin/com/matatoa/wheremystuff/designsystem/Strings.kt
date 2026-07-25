@@ -18,5 +18,12 @@ object Strings {
     object StartScreen {
         const val EMPTY_STATE_TEXT = "You haven't added any places for your stuff. Please add at least one"
         const val EMPTY_STATE_ADD_PLACE = "Add place"
+
+        const val ADD_PLACE_DIALOG_TITLE = "Add place"
+        const val ADD_PLACE_NAME_LABEL = "Place name"
+        const val ADD_PLACE_NAME_TAKEN = "A place with this name already exists"
+        const val ADD_PLACE_ICON_LABEL = "Choose an icon (optional)"
+        const val ADD_PLACE_CONFIRM = "Add"
+        const val ADD_PLACE_CANCEL = "Cancel"
     }
 }

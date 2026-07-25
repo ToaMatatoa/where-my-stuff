@@ -22,6 +22,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.matatoa.wheremystuff.EMPTY_STRING
 import com.matatoa.wheremystuff.designsystem.Strings
 import com.matatoa.wheremystuff.designsystem.TopBar
 import com.matatoa.wheremystuff.designsystem.theme.WhereMyStuffTheme
@@ -37,8 +43,19 @@ import com.matatoa.wheremystuff.domain.model.PlaceData
 @Composable
 fun StartScreen(
     state: StartScreenState,
+    onSaveNewPlace: (String, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var showAddPlaceDialog by rememberSaveable { mutableStateOf(value = false) }
+    var placeName by rememberSaveable { mutableStateOf(value = EMPTY_STRING) }
+    var placeIconName by rememberSaveable { mutableStateOf(value = EMPTY_STRING) }
+
+    val isPlaceNameTaken = remember(placeName, state.places) {
+        val trimmedName = placeName.trim()
+        trimmedName.isNotEmpty() &&
+                state.places.any { it.name.equals(other = trimmedName, ignoreCase = true) }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -51,25 +68,47 @@ fun StartScreen(
         )
 
         StartScreenBase(
-            state = state
+            state = state,
+            onAddNewPlaceClick = { showAddPlaceDialog = true }
         )
     }
+
+    ShowAddPlaceDialog(
+        show = showAddPlaceDialog,
+        placeName = placeName,
+        placeIconName = placeIconName,
+        isNameTaken = isPlaceNameTaken,
+        onPlaceNameChange = { placeName = it },
+        onPlaceIconNameChange = { placeIconName = it },
+        onConfirm = {
+            onSaveNewPlace(placeName.trim(), placeIconName)
+            showAddPlaceDialog = false
+            placeName = EMPTY_STRING
+            placeIconName = EMPTY_STRING
+        },
+        onDismiss = {
+            showAddPlaceDialog = false
+            placeName = EMPTY_STRING
+            placeIconName = EMPTY_STRING
+        },
+    )
 }
 
 @Composable
 private fun StartScreenBase(
     state: StartScreenState,
+    onAddNewPlaceClick: () -> Unit
 ) {
     when {
         state.isLoading -> StartScreenBaseLoadingState()
 
         state.places.isEmpty() -> StartScreenBaseEmptyState(
-            onAddNewPlaceClick = {}
+            onAddNewPlaceClick = onAddNewPlaceClick
         )
 
         else -> StartScreenBaseCompleted(
             places = state.places,
-            onAddNewPlaceClick = {}
+            onAddNewPlaceClick = onAddNewPlaceClick
         )
     }
 }
@@ -170,7 +209,7 @@ private fun StartScreenBaseCompleted(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(height = 64.dp)
-                    .padding(start = 20.dp, top = 16.dp, end = 20.dp),
+                    .padding(start = 20.dp, top = 24.dp, end = 20.dp),
             ) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
@@ -219,7 +258,7 @@ private fun StartScreenBaseCompletedListItem(
         ) {
             AnimatedVisibility(visible = iconName.isNotEmpty()) {
                 Icon(
-                    imageVector = placeIcon(iconName = iconName),
+                    imageVector = PlaceIcon.iconFor(name = iconName),
                     contentDescription = Strings.Common.PLACE_ICON,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
@@ -231,6 +270,7 @@ private fun StartScreenBaseCompletedListItem(
                 text = name,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -264,7 +304,8 @@ fun StartScreenPreview() {
                         iconName = ""
                     )
                 )
-            )
+            ),
+            onSaveNewPlace = { _, _ -> }
         )
     }
 }
