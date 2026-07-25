@@ -32,39 +32,34 @@ fun AppTypography(): Typography {
     val inter = InterFontFamily()
     return Typography(
         /** Screen titles — e.g. top-bar title, onboarding headline */
-        headlineLarge =
-            TextStyle(
-                fontFamily = inter,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 32.sp,
-            ),
+        headlineLarge = TextStyle(
+            fontFamily = inter,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 32.sp,
+        ),
         /** Card titles — e.g. adventure card name, section header */
-        titleMedium =
-            TextStyle(
-                fontFamily = inter,
-                fontWeight = FontWeight.Medium,
-                fontSize = 24.sp,
-            ),
+        titleMedium = TextStyle(
+            fontFamily = inter,
+            fontWeight = FontWeight.Medium,
+            fontSize = 24.sp,
+        ),
         /** Primary descriptions — e.g. card body text, instructions */
-        bodyLarge =
-            TextStyle(
-                fontFamily = inter,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-            ),
+        bodyLarge = TextStyle(
+            fontFamily = inter,
+            fontWeight = FontWeight.Normal,
+            fontSize = 16.sp,
+        ),
         /** Secondary info — e.g. timestamps, metadata, helper text */
-        bodyMedium =
-            TextStyle(
-                fontFamily = inter,
-                fontWeight = FontWeight.Normal,
-                fontSize = 14.sp,
-            ),
+        bodyMedium = TextStyle(
+            fontFamily = inter,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp,
+        ),
         /** Tab labels, chips, badges, captions */
-        labelSmall =
-            TextStyle(
-                fontFamily = inter,
-                fontWeight = FontWeight.Medium,
-                fontSize = 12.sp,
-            ),
+        labelSmall = TextStyle(
+            fontFamily = inter,
+            fontWeight = FontWeight.Medium,
+            fontSize = 12.sp,
+        ),
     )
 }

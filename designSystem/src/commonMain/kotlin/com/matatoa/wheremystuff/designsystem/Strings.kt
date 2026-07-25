@@ -13,4 +13,9 @@ object Strings {
         const val BACK = "Back"
         const val SEARCH = "Search"
     }
+
+    object StartScreen {
+        const val EMPTY_STATE_TEXT = "You haven't added any places for your stuff. Please add at least one"
+        const val EMPTY_STATE_ADD_PLACE = "Add place"
+    }
 }
