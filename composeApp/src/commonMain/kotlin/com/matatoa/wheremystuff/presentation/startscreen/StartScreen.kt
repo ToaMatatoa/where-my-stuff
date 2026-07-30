@@ -1,7 +1,6 @@
 package com.matatoa.wheremystuff.presentation.startscreen
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -103,13 +102,13 @@ private fun StartScreenBase(
     onAddNewPlaceClick: () -> Unit
 ) {
     when {
-        state.isLoading -> StartScreenBaseLoadingState()
+        state.isLoading -> StartScreenLoadingState()
 
-        state.places.isEmpty() -> StartScreenBaseEmptyState(
+        state.places.isEmpty() -> StartScreenEmptyState(
             onAddNewPlaceClick = onAddNewPlaceClick
         )
 
-        else -> StartScreenBaseCompleted(
+        else -> StartScreenCompletedState(
             places = state.places,
             onPlaceClick = onPlaceClick,
             onAddNewPlaceClick = onAddNewPlaceClick
@@ -118,7 +117,7 @@ private fun StartScreenBase(
 }
 
 @Composable
-private fun StartScreenBaseLoadingState(
+private fun StartScreenLoadingState(
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -136,7 +135,7 @@ private fun StartScreenBaseLoadingState(
 }
 
 @Composable
-private fun StartScreenBaseEmptyState(
+private fun StartScreenEmptyState(
     onAddNewPlaceClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -150,7 +149,7 @@ private fun StartScreenBaseEmptyState(
             .fillMaxSize(),
     ) {
         Text(
-            text = Strings.StartScreen.EMPTY_STATE_TEXT,
+            text = Strings.AllPlacesScreen.EMPTY_STATE_TEXT,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
@@ -174,7 +173,7 @@ private fun StartScreenBaseEmptyState(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = Strings.StartScreen.EMPTY_STATE_ADD_PLACE,
+                    text = Strings.AllPlacesScreen.EMPTY_STATE_ADD_PLACE,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
                 )
@@ -184,7 +183,7 @@ private fun StartScreenBaseEmptyState(
 }
 
 @Composable
-private fun StartScreenBaseCompleted(
+private fun StartScreenCompletedState(
     places: List<PlaceData>,
     onPlaceClick: (Int) -> Unit,
     onAddNewPlaceClick: () -> Unit,
@@ -222,7 +221,7 @@ private fun StartScreenBaseCompleted(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = Strings.StartScreen.EMPTY_STATE_ADD_PLACE,
+                        text = Strings.AllPlacesScreen.EMPTY_STATE_ADD_PLACE,
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
                     )
