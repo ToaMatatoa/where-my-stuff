@@ -54,6 +54,17 @@ val Surface = MistPale
 /** Primary text inside cards / list items. */
 val OnSurface = InkGreen
 
+/**
+ * The elevated-container ramp Material 3 reaches for on its own — dialogs, menus,
+ * bottom sheets. Left unset these fall back to Material's baseline lavender neutrals,
+ * so they are pinned to the brand tones here even though no code names them directly.
+ */
+val SurfaceContainerLowest = CanvasMint
+val SurfaceContainerLow = MistPale
+val SurfaceContainer = MistPale
+val SurfaceContainerHigh = MistPale
+val SurfaceContainerHighest = MintPale
+
 /** Inactive chips, dividers, selected/subtle containers. */
 val SurfaceVariant = MintPale
 
@@ -75,6 +86,9 @@ val OnPrimaryContainer = InkGreen
 /** Borders, thin dividers, text-field outlines. */
 val Outline = SageOutline
 
+/** The softer divider tone Material reaches for by default (e.g. HorizontalDivider). */
+val OutlineVariant = MintPale
+
 /** Destructive actions (delete a place / item). */
 val Error = Terracotta
 
@@ -90,6 +104,11 @@ val AppColorScheme = lightColorScheme(
     onBackground = OnBackground,
     surface = Surface,
     onSurface = OnSurface,
+    surfaceContainerLowest = SurfaceContainerLowest,
+    surfaceContainerLow = SurfaceContainerLow,
+    surfaceContainer = SurfaceContainer,
+    surfaceContainerHigh = SurfaceContainerHigh,
+    surfaceContainerHighest = SurfaceContainerHighest,
     surfaceVariant = SurfaceVariant,
     onSurfaceVariant = OnSurfaceVariant,
     primary = Primary,
@@ -97,6 +116,7 @@ val AppColorScheme = lightColorScheme(
     primaryContainer = PrimaryContainer,
     onPrimaryContainer = OnPrimaryContainer,
     outline = Outline,
+    outlineVariant = OutlineVariant,
     error = Error,
     onError = OnError,
 )
