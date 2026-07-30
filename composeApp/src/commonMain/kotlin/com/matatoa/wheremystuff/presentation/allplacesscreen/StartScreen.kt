@@ -1,10 +1,11 @@
-package com.matatoa.wheremystuff.presentation.startscreen
+package com.matatoa.wheremystuff.presentation.allplacesscreen
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalButton
@@ -29,6 +31,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,7 +46,9 @@ import com.matatoa.wheremystuff.domain.model.PlaceData
 @Composable
 fun StartScreen(
     state: StartScreenState,
+    onOpenPlaceDetails: (Int) -> Unit,
     onSaveNewPlace: (String, String) -> Unit,
+    onDeletePlace: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var showAddPlaceDialog by rememberSaveable { mutableStateOf(value = false) }
@@ -56,10 +61,14 @@ fun StartScreen(
                 state.places.any { it.name.equals(other = trimmedName, ignoreCase = true) }
     }
 
+    var placeIdToDelete by rememberSaveable { mutableStateOf<Int?>(value = null) }
+    val placeNameToDelete = remember(placeIdToDelete, state.places) {
+        state.places.firstOrNull { it.id == placeIdToDelete }?.name
+    }
+
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
+            .fillMaxSize(),
     ) {
         TopBar(
             title = Strings.Common.TOP_BAR_TITLE,
@@ -69,7 +78,9 @@ fun StartScreen(
 
         StartScreenBase(
             state = state,
-            onAddNewPlaceClick = { showAddPlaceDialog = true }
+            onOpenPlaceDetailsClick = onOpenPlaceDetails,
+            onDeletePlaceClick = { placeIdToDelete = it },
+            onAddNewPlaceClick = { showAddPlaceDialog = true },
         )
     }
 
@@ -90,31 +101,44 @@ fun StartScreen(
             showAddPlaceDialog = false
             placeName = EMPTY_STRING
             placeIconName = EMPTY_STRING
+        }
+    )
+
+    ShowDeletePlaceDialog(
+        placeName = placeNameToDelete,
+        onConfirm = {
+            placeIdToDelete?.let(onDeletePlace)
+            placeIdToDelete = null
         },
+        onDismiss = { placeIdToDelete = null }
     )
 }
 
 @Composable
 private fun StartScreenBase(
     state: StartScreenState,
+    onOpenPlaceDetailsClick: (Int) -> Unit,
+    onDeletePlaceClick: (Int) -> Unit,
     onAddNewPlaceClick: () -> Unit
 ) {
     when {
-        state.isLoading -> StartScreenBaseLoadingState()
+        state.isLoading -> StartScreenLoadingState()
 
-        state.places.isEmpty() -> StartScreenBaseEmptyState(
+        state.places.isEmpty() -> StartScreenEmptyState(
             onAddNewPlaceClick = onAddNewPlaceClick
         )
 
-        else -> StartScreenBaseCompleted(
+        else -> StartScreenCompletedState(
             places = state.places,
-            onAddNewPlaceClick = onAddNewPlaceClick
+            onOpenPlaceDetailsClick = onOpenPlaceDetailsClick,
+            onAddNewPlaceClick = onAddNewPlaceClick,
+            onDeletePlaceClick = onDeletePlaceClick
         )
     }
 }
 
 @Composable
-private fun StartScreenBaseLoadingState(
+private fun StartScreenLoadingState(
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -132,7 +156,7 @@ private fun StartScreenBaseLoadingState(
 }
 
 @Composable
-private fun StartScreenBaseEmptyState(
+private fun StartScreenEmptyState(
     onAddNewPlaceClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -146,7 +170,7 @@ private fun StartScreenBaseEmptyState(
             .fillMaxSize(),
     ) {
         Text(
-            text = Strings.StartScreen.EMPTY_STATE_TEXT,
+            text = Strings.AllPlacesScreen.EMPTY_STATE_TEXT,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
@@ -170,7 +194,7 @@ private fun StartScreenBaseEmptyState(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = Strings.StartScreen.EMPTY_STATE_ADD_PLACE,
+                    text = Strings.AllPlacesScreen.EMPTY_STATE_ADD_PLACE,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
                 )
@@ -180,12 +204,15 @@ private fun StartScreenBaseEmptyState(
 }
 
 @Composable
-private fun StartScreenBaseCompleted(
+private fun StartScreenCompletedState(
     places: List<PlaceData>,
+    onOpenPlaceDetailsClick: (Int) -> Unit,
+    onDeletePlaceClick: (Int) -> Unit,
     onAddNewPlaceClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
+        contentPadding = PaddingValues(top = 16.dp),
         modifier = modifier
             .fillMaxSize()
             .navigationBarsPadding()
@@ -195,7 +222,9 @@ private fun StartScreenBaseCompleted(
         ) {
             StartScreenBaseCompletedListItem(
                 name = it.name,
-                iconName = it.iconName
+                iconName = it.iconName,
+                onOpenPlaceDetailsClick = { onOpenPlaceDetailsClick(it.id) },
+                onDeletePlaceClick = { onDeletePlaceClick(it.id) }
             )
         }
 
@@ -216,7 +245,7 @@ private fun StartScreenBaseCompleted(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = Strings.StartScreen.EMPTY_STATE_ADD_PLACE,
+                        text = Strings.AllPlacesScreen.EMPTY_STATE_ADD_PLACE,
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
                     )
@@ -230,20 +259,20 @@ private fun StartScreenBaseCompleted(
 private fun StartScreenBaseCompletedListItem(
     name: String,
     iconName: String,
+    onOpenPlaceDetailsClick: () -> Unit,
+    onDeletePlaceClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 16.dp)
     ) {
         HorizontalDivider(
             thickness = 1.dp,
             color = MaterialTheme.colorScheme.outline,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 40.dp)
         )
 
         Row(
@@ -255,6 +284,12 @@ private fun StartScreenBaseCompletedListItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
+                .clip(shape = RoundedCornerShape(size = 16.dp))
+                .combinedClickable(
+                    onClick = onOpenPlaceDetailsClick,
+                    onLongClick = onDeletePlaceClick
+                )
+                .padding(horizontal = 8.dp, vertical = 16.dp)
         ) {
             AnimatedVisibility(visible = iconName.isNotEmpty()) {
                 Icon(
@@ -305,7 +340,9 @@ fun StartScreenPreview() {
                     )
                 )
             ),
-            onSaveNewPlace = { _, _ -> }
+            onOpenPlaceDetails = {},
+            onSaveNewPlace = { _, _ -> },
+            onDeletePlace = {}
         )
     }
 }

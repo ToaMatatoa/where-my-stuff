@@ -1,6 +1,8 @@
 package com.matatoa.wheremystuff.designsystem
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -11,7 +13,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.designsystem.theme.WhereMyStuffTheme
@@ -24,6 +29,7 @@ import compose.icons.tablericons.ListSearch
 fun TopBar(
     title: String,
     modifier: Modifier = Modifier,
+    titleIcon: ImageVector? = null,
     showBackButton: Boolean = false,
     showSearchFilter: Boolean = false,
     onBackClick: () -> Unit = {},
@@ -43,11 +49,27 @@ fun TopBar(
             }
         },
         title = {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(space = 12.dp)
+            ) {
+                if (titleIcon != null)
+                    Icon(
+                        imageVector = titleIcon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .size(size = 32.dp)
+                    )
+
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         },
         actions = {
             AnimatedVisibility(visible = showSearchFilter) {

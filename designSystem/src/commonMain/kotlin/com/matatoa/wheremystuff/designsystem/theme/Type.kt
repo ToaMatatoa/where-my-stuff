@@ -37,6 +37,12 @@ fun AppTypography(): Typography {
             fontWeight = FontWeight.SemiBold,
             fontSize = 32.sp,
         ),
+        /** Dialog titles */
+        headlineSmall = TextStyle(
+            fontFamily = inter,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 24.sp,
+        ),
         /** Card titles — e.g. adventure card name, section header */
         titleMedium = TextStyle(
             fontFamily = inter,
@@ -54,6 +60,12 @@ fun AppTypography(): Typography {
             fontFamily = inter,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
+        ),
+        /** Button labels — e.g. dialog confirm / cancel actions */
+        labelLarge = TextStyle(
+            fontFamily = inter,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp,
         ),
         /** Tab labels, chips, badges, captions */
         labelSmall = TextStyle(

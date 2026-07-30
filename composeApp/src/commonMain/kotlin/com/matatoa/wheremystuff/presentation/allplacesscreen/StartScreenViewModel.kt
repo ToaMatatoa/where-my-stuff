@@ -1,10 +1,12 @@
-package com.matatoa.wheremystuff.presentation.startscreen
+package com.matatoa.wheremystuff.presentation.allplacesscreen
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.matatoa.wheremystuff.STOP_TIME_OUT_MILLIS
 import com.matatoa.wheremystuff.domain.model.PlaceData
 import com.matatoa.wheremystuff.domain.usecase.AddPlaceUseCase
+import com.matatoa.wheremystuff.domain.usecase.DeletePlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.GetAllPlacesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class StartScreenViewModel(
     getAllPlacesUseCase: GetAllPlacesUseCase,
-    private val addPlaceUseCase: AddPlaceUseCase
+    private val addPlaceUseCase: AddPlaceUseCase,
+    private val deletePlaceUseCase: DeletePlaceUseCase
 ) : ViewModel() {
     private val _state: MutableStateFlow<StartScreenState> =
         MutableStateFlow(value = StartScreenState())
@@ -25,11 +28,12 @@ class StartScreenViewModel(
             flow2 = _state
         ) { places, currentState ->
             currentState.copy(
+                isLoading = false,
                 places = places
             )
         }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = STOP_TIME_OUT_MILLIS),
             initialValue = StartScreenState(isLoading = true)
         )
 
@@ -38,6 +42,12 @@ class StartScreenViewModel(
             addPlaceUseCase.invoke(
                 place = place
             )
+        }
+    }
+
+    fun deletePlace(id: Int) {
+        viewModelScope.launch {
+            deletePlaceUseCase.invoke(id = id)
         }
     }
 }
