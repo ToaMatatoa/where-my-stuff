@@ -3,6 +3,7 @@ package com.matatoa.wheremystuff.presentation.startscreen
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.matatoa.wheremystuff.STOP_TIME_OUT_MILLIS
 import com.matatoa.wheremystuff.domain.model.PlaceData
 import com.matatoa.wheremystuff.domain.usecase.AddPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.GetAllPlacesUseCase
@@ -25,11 +26,12 @@ class StartScreenViewModel(
             flow2 = _state
         ) { places, currentState ->
             currentState.copy(
+                isLoading = false,
                 places = places
             )
         }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = STOP_TIME_OUT_MILLIS),
             initialValue = StartScreenState(isLoading = true)
         )
 

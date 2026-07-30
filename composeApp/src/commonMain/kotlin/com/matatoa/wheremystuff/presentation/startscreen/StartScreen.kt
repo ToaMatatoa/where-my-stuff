@@ -2,6 +2,7 @@ package com.matatoa.wheremystuff.presentation.startscreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +44,7 @@ import com.matatoa.wheremystuff.domain.model.PlaceData
 @Composable
 fun StartScreen(
     state: StartScreenState,
+    onPlaceClick: (Int) -> Unit,
     onSaveNewPlace: (String, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -58,8 +60,7 @@ fun StartScreen(
 
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
+            .fillMaxSize(),
     ) {
         TopBar(
             title = Strings.Common.TOP_BAR_TITLE,
@@ -69,6 +70,7 @@ fun StartScreen(
 
         StartScreenBase(
             state = state,
+            onPlaceClick = onPlaceClick,
             onAddNewPlaceClick = { showAddPlaceDialog = true }
         )
     }
@@ -97,6 +99,7 @@ fun StartScreen(
 @Composable
 private fun StartScreenBase(
     state: StartScreenState,
+    onPlaceClick: (Int) -> Unit,
     onAddNewPlaceClick: () -> Unit
 ) {
     when {
@@ -108,6 +111,7 @@ private fun StartScreenBase(
 
         else -> StartScreenBaseCompleted(
             places = state.places,
+            onPlaceClick = onPlaceClick,
             onAddNewPlaceClick = onAddNewPlaceClick
         )
     }
@@ -182,6 +186,7 @@ private fun StartScreenBaseEmptyState(
 @Composable
 private fun StartScreenBaseCompleted(
     places: List<PlaceData>,
+    onPlaceClick: (Int) -> Unit,
     onAddNewPlaceClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -195,7 +200,8 @@ private fun StartScreenBaseCompleted(
         ) {
             StartScreenBaseCompletedListItem(
                 name = it.name,
-                iconName = it.iconName
+                iconName = it.iconName,
+                onClick = { onPlaceClick(it.id) }
             )
         }
 
@@ -230,6 +236,7 @@ private fun StartScreenBaseCompleted(
 private fun StartScreenBaseCompletedListItem(
     name: String,
     iconName: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -254,6 +261,7 @@ private fun StartScreenBaseCompletedListItem(
             ),
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable(onClick = onClick)
                 .padding(horizontal = 24.dp)
         ) {
             AnimatedVisibility(visible = iconName.isNotEmpty()) {
@@ -305,6 +313,7 @@ fun StartScreenPreview() {
                     )
                 )
             ),
+            onPlaceClick = {},
             onSaveNewPlace = { _, _ -> }
         )
     }
