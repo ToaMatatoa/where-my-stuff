@@ -15,7 +15,7 @@ object Strings {
         const val PLACE_ICON = "Place icon"
     }
 
-    object StartScreen {
+    object AllPlacesScreen {
         const val EMPTY_STATE_TEXT = "You haven't added any places for your stuff. Please add at least one"
         const val EMPTY_STATE_ADD_PLACE = "Add place"
 
@@ -25,5 +25,9 @@ object Strings {
         const val ADD_PLACE_ICON_LABEL = "Choose an icon (optional)"
         const val ADD_PLACE_CONFIRM = "Add"
         const val ADD_PLACE_CANCEL = "Cancel"
+    }
+
+    object PlaceDetailsScreen {
+        const val EMPTY_STATE_TEXT = "You have some problems with this place. Delete it and add again please!"
     }
 }

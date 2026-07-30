@@ -53,7 +53,7 @@ fun ShowAddPlaceDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = Strings.StartScreen.ADD_PLACE_DIALOG_TITLE)
+            Text(text = Strings.AllPlacesScreen.ADD_PLACE_DIALOG_TITLE)
         },
         text = {
             Column(
@@ -67,10 +67,10 @@ fun ShowAddPlaceDialog(
                     },
                     singleLine = true,
                     isError = isNameTaken,
-                    label = { Text(text = Strings.StartScreen.ADD_PLACE_NAME_LABEL) },
+                    label = { Text(text = Strings.AllPlacesScreen.ADD_PLACE_NAME_LABEL) },
                     supportingText =
                         if (isNameTaken) {
-                            { Text(text = Strings.StartScreen.ADD_PLACE_NAME_TAKEN) }
+                            { Text(text = Strings.AllPlacesScreen.ADD_PLACE_NAME_TAKEN) }
                         } else if (placeName.isNotEmpty()) {
                             {
                                 Text(
@@ -88,7 +88,7 @@ fun ShowAddPlaceDialog(
                 )
 
                 Text(
-                    text = Strings.StartScreen.ADD_PLACE_ICON_LABEL,
+                    text = Strings.AllPlacesScreen.ADD_PLACE_ICON_LABEL,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -106,12 +106,12 @@ fun ShowAddPlaceDialog(
                 onClick = onConfirm,
                 enabled = placeName.isNotBlank() && !isNameTaken,
             ) {
-                Text(text = Strings.StartScreen.ADD_PLACE_CONFIRM)
+                Text(text = Strings.AllPlacesScreen.ADD_PLACE_CONFIRM)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = Strings.StartScreen.ADD_PLACE_CANCEL)
+                Text(text = Strings.AllPlacesScreen.ADD_PLACE_CANCEL)
             }
         },
     )
