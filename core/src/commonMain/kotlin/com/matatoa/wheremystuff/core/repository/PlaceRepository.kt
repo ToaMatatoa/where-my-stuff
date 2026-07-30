@@ -9,6 +9,7 @@ interface PlaceRepository {
     fun getAllPlaces(): Flow<List<PlaceEntity>>
     fun getPlaceDetails(id: Int): Flow<PlaceEntity?>
     suspend fun addPlace(place: PlaceEntity)
+    suspend fun deletePlace(id: Int)
 }
 
 class PlaceRepositoryImpl(
@@ -23,4 +24,7 @@ class PlaceRepositoryImpl(
 
     override suspend fun addPlace(place: PlaceEntity) =
         mutablePlaceDataSource.addPlace(place = place)
+
+    override suspend fun deletePlace(id: Int) =
+        mutablePlaceDataSource.deletePlace(id = id)
 }

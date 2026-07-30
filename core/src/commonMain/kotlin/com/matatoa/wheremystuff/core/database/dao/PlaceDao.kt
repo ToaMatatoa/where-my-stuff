@@ -17,4 +17,7 @@ interface PlaceDao {
     /** Emits `null` once the place is deleted or if it never existed. */
     @Query(value = "SELECT * FROM place WHERE id = :id")
     fun getPlaceDetails(id: Int): Flow<PlaceEntity?>
+
+    @Query("DELETE FROM place WHERE id = :id")
+    suspend fun deletePlace(id: Int)
 }
