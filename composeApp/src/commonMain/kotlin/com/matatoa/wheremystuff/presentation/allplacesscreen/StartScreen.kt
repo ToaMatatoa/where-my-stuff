@@ -1,4 +1,4 @@
-package com.matatoa.wheremystuff.presentation.startscreen
+package com.matatoa.wheremystuff.presentation.allplacesscreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable

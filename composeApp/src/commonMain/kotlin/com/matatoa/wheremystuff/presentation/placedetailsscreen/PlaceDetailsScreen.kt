@@ -1,4 +1,4 @@
-package com.matatoa.wheremystuff.presentation.placescreen
+package com.matatoa.wheremystuff.presentation.placedetailsscreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +19,7 @@ import com.matatoa.wheremystuff.designsystem.Strings
 import com.matatoa.wheremystuff.designsystem.TopBar
 import com.matatoa.wheremystuff.designsystem.theme.WhereMyStuffTheme
 import com.matatoa.wheremystuff.domain.model.PlaceData
-import com.matatoa.wheremystuff.presentation.startscreen.PlaceIcon
+import com.matatoa.wheremystuff.presentation.allplacesscreen.PlaceIcon
 
 @Composable
 fun PlaceDetailsScreen(

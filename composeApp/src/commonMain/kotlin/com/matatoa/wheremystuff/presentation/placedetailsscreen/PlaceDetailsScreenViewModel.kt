@@ -1,4 +1,4 @@
-package com.matatoa.wheremystuff.presentation.placescreen
+package com.matatoa.wheremystuff.presentation.placedetailsscreen
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel

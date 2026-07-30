@@ -8,8 +8,8 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.matatoa.wheremystuff.presentation.placescreen.PlaceDetailsScreenRoot
-import com.matatoa.wheremystuff.presentation.startscreen.StartScreenRoot
+import com.matatoa.wheremystuff.presentation.placedetailsscreen.PlaceDetailsScreenRoot
+import com.matatoa.wheremystuff.presentation.allplacesscreen.StartScreenRoot
 
 @Composable
 fun AppNavigation(modifier: Modifier = Modifier) {

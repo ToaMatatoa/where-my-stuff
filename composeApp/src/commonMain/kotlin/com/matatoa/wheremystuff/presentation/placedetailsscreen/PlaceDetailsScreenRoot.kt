@@ -1,4 +1,4 @@
-package com.matatoa.wheremystuff.presentation.placescreen
+package com.matatoa.wheremystuff.presentation.placedetailsscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme

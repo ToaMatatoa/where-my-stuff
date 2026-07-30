@@ -1,4 +1,4 @@
-package com.matatoa.wheremystuff.presentation.startscreen
+package com.matatoa.wheremystuff.presentation.allplacesscreen
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel

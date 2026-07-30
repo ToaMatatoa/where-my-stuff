@@ -1,7 +1,7 @@
 package com.matatoa.wheremystuff.di
 
-import com.matatoa.wheremystuff.presentation.placescreen.PlaceDetailsScreenViewModel
-import com.matatoa.wheremystuff.presentation.startscreen.StartScreenViewModel
+import com.matatoa.wheremystuff.presentation.placedetailsscreen.PlaceDetailsScreenViewModel
+import com.matatoa.wheremystuff.presentation.allplacesscreen.StartScreenViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
