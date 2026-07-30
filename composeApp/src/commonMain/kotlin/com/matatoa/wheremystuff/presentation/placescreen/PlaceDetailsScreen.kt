@@ -7,12 +7,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.EMPTY_STRING
+import com.matatoa.wheremystuff.designsystem.Strings
 import com.matatoa.wheremystuff.designsystem.TopBar
 import com.matatoa.wheremystuff.designsystem.theme.WhereMyStuffTheme
 import com.matatoa.wheremystuff.domain.model.PlaceData
@@ -37,21 +40,66 @@ fun PlaceDetailsScreen(
                 .padding(top = 48.dp),
         )
 
-        if (state.isLoading) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize(),
-            ) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.primary,
-                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                    modifier = Modifier
-                        .size(size = 120.dp),
-                )
-            }
-        }
+        PlaceDetailsScreenBase(
+            state = state
+        )
     }
+}
+
+@Composable
+private fun PlaceDetailsScreenBase(
+    state: PlaceScreenState
+) {
+    when {
+        state.isLoading -> PlaceDetailsScreenLoadingState()
+        state.place == null -> PlaceDetailsScreenEmptyState()
+        else -> PlaceDetailsScreenCompletedState()
+    }
+}
+
+@Composable
+private fun PlaceDetailsScreenLoadingState(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .fillMaxSize(),
+    ) {
+        CircularProgressIndicator(
+            color = MaterialTheme.colorScheme.primary,
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+            modifier = Modifier
+                .size(size = 120.dp),
+        )
+    }
+}
+
+@Composable
+private fun PlaceDetailsScreenEmptyState(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .fillMaxSize(),
+    ) {
+        Text(
+            text = Strings.PlaceDetailsScreen.EMPTY_STATE_TEXT,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(horizontal = 40.dp),
+        )
+    }
+}
+
+@Composable
+private fun PlaceDetailsScreenCompletedState(
+    modifier: Modifier = Modifier
+) {
+
 }
 
 @Preview(showBackground = true)
