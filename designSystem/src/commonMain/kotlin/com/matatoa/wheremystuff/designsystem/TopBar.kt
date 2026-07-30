@@ -51,7 +51,7 @@ fun TopBar(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+                horizontalArrangement = Arrangement.spacedBy(space = 12.dp)
             ) {
                 if (titleIcon != null)
                     Icon(
