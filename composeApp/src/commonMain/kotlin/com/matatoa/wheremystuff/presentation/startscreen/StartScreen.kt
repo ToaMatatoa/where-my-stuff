@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalButton
@@ -29,6 +31,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -190,6 +193,7 @@ private fun StartScreenCompletedState(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
+        contentPadding = PaddingValues(top = 16.dp),
         modifier = modifier
             .fillMaxSize()
             .navigationBarsPadding()
@@ -239,17 +243,15 @@ private fun StartScreenBaseCompletedListItem(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 16.dp)
     ) {
         HorizontalDivider(
             thickness = 1.dp,
             color = MaterialTheme.colorScheme.outline,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 40.dp)
         )
 
         Row(
@@ -260,8 +262,10 @@ private fun StartScreenBaseCompletedListItem(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable(onClick = onClick)
                 .padding(horizontal = 24.dp)
+                .clip(shape = RoundedCornerShape(size = 16.dp))
+                .clickable(onClick = onClick)
+                .padding(horizontal = 8.dp, vertical = 16.dp)
         ) {
             AnimatedVisibility(visible = iconName.isNotEmpty()) {
                 Icon(
