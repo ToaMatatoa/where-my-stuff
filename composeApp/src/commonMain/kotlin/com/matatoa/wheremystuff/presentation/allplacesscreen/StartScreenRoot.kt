@@ -10,7 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun StartScreenRoot(
-    onPlaceClick: (Int) -> Unit,
+    onOpenPlaceDetailsClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = koinViewModel<StartScreenViewModel>()
@@ -18,7 +18,7 @@ fun StartScreenRoot(
 
     StartScreen(
         state = state,
-        onPlaceClick = onPlaceClick,
+        onOpenPlaceDetails = onOpenPlaceDetailsClick,
         onSaveNewPlace = { placeName, placeIconName ->
             viewModel.addPlace(
                 PlaceData(
@@ -26,6 +26,9 @@ fun StartScreenRoot(
                     iconName = placeIconName
                 )
             )
+        },
+        onDeletePlace = {
+            viewModel.deletePlace(id = it)
         },
         modifier = modifier
             .background(color = MaterialTheme.colorScheme.background)

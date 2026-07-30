@@ -1,15 +1,15 @@
 package com.matatoa.wheremystuff.presentation.allplacesscreen
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -46,8 +46,9 @@ import com.matatoa.wheremystuff.domain.model.PlaceData
 @Composable
 fun StartScreen(
     state: StartScreenState,
-    onPlaceClick: (Int) -> Unit,
+    onOpenPlaceDetails: (Int) -> Unit,
     onSaveNewPlace: (String, String) -> Unit,
+    onDeletePlace: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var showAddPlaceDialog by rememberSaveable { mutableStateOf(value = false) }
@@ -58,6 +59,11 @@ fun StartScreen(
         val trimmedName = placeName.trim()
         trimmedName.isNotEmpty() &&
                 state.places.any { it.name.equals(other = trimmedName, ignoreCase = true) }
+    }
+
+    var placeIdToDelete by rememberSaveable { mutableStateOf<Int?>(value = null) }
+    val placeNameToDelete = remember(placeIdToDelete, state.places) {
+        state.places.firstOrNull { it.id == placeIdToDelete }?.name
     }
 
     Column(
@@ -72,8 +78,9 @@ fun StartScreen(
 
         StartScreenBase(
             state = state,
-            onPlaceClick = onPlaceClick,
-            onAddNewPlaceClick = { showAddPlaceDialog = true }
+            onOpenPlaceDetailsClick = onOpenPlaceDetails,
+            onDeletePlaceClick = { placeIdToDelete = it },
+            onAddNewPlaceClick = { showAddPlaceDialog = true },
         )
     }
 
@@ -94,14 +101,24 @@ fun StartScreen(
             showAddPlaceDialog = false
             placeName = EMPTY_STRING
             placeIconName = EMPTY_STRING
+        }
+    )
+
+    ShowDeletePlaceDialog(
+        placeName = placeNameToDelete,
+        onConfirm = {
+            placeIdToDelete?.let(onDeletePlace)
+            placeIdToDelete = null
         },
+        onDismiss = { placeIdToDelete = null }
     )
 }
 
 @Composable
 private fun StartScreenBase(
     state: StartScreenState,
-    onPlaceClick: (Int) -> Unit,
+    onOpenPlaceDetailsClick: (Int) -> Unit,
+    onDeletePlaceClick: (Int) -> Unit,
     onAddNewPlaceClick: () -> Unit
 ) {
     when {
@@ -113,8 +130,9 @@ private fun StartScreenBase(
 
         else -> StartScreenCompletedState(
             places = state.places,
-            onPlaceClick = onPlaceClick,
-            onAddNewPlaceClick = onAddNewPlaceClick
+            onOpenPlaceDetailsClick = onOpenPlaceDetailsClick,
+            onAddNewPlaceClick = onAddNewPlaceClick,
+            onDeletePlaceClick = onDeletePlaceClick
         )
     }
 }
@@ -188,7 +206,8 @@ private fun StartScreenEmptyState(
 @Composable
 private fun StartScreenCompletedState(
     places: List<PlaceData>,
-    onPlaceClick: (Int) -> Unit,
+    onOpenPlaceDetailsClick: (Int) -> Unit,
+    onDeletePlaceClick: (Int) -> Unit,
     onAddNewPlaceClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -204,7 +223,8 @@ private fun StartScreenCompletedState(
             StartScreenBaseCompletedListItem(
                 name = it.name,
                 iconName = it.iconName,
-                onClick = { onPlaceClick(it.id) }
+                onOpenPlaceDetailsClick = { onOpenPlaceDetailsClick(it.id) },
+                onDeletePlaceClick = { onDeletePlaceClick(it.id) }
             )
         }
 
@@ -239,7 +259,8 @@ private fun StartScreenCompletedState(
 private fun StartScreenBaseCompletedListItem(
     name: String,
     iconName: String,
-    onClick: () -> Unit,
+    onOpenPlaceDetailsClick: () -> Unit,
+    onDeletePlaceClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -264,7 +285,10 @@ private fun StartScreenBaseCompletedListItem(
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
                 .clip(shape = RoundedCornerShape(size = 16.dp))
-                .clickable(onClick = onClick)
+                .combinedClickable(
+                    onClick = onOpenPlaceDetailsClick,
+                    onLongClick = onDeletePlaceClick
+                )
                 .padding(horizontal = 8.dp, vertical = 16.dp)
         ) {
             AnimatedVisibility(visible = iconName.isNotEmpty()) {
@@ -316,8 +340,9 @@ fun StartScreenPreview() {
                     )
                 )
             ),
-            onPlaceClick = {},
-            onSaveNewPlace = { _, _ -> }
+            onOpenPlaceDetails = {},
+            onSaveNewPlace = { _, _ -> },
+            onDeletePlace = {}
         )
     }
 }

@@ -26,7 +26,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         entryProvider = entryProvider {
             entry<Route.StartScreen> {
                 StartScreenRoot(
-                    onPlaceClick = { placeId ->
+                    onOpenPlaceDetailsClick = { placeId ->
                         navigator.navigate(route = Route.PlaceDetailsScreen(id = placeId))
                     },
                 )

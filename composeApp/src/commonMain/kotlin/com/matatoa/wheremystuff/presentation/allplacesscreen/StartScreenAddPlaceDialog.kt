@@ -155,7 +155,7 @@ private fun AddPlaceIconCell(
     val shape = RoundedCornerShape(size = 12.dp)
     val containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer
     else MaterialTheme.colorScheme.surfaceVariant
-    val contentColor = if (selected) MaterialTheme.colorScheme.primary
+    val contentColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer
     else MaterialTheme.colorScheme.onSurfaceVariant
 
     Box(

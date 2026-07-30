@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.matatoa.wheremystuff.STOP_TIME_OUT_MILLIS
 import com.matatoa.wheremystuff.domain.model.PlaceData
 import com.matatoa.wheremystuff.domain.usecase.AddPlaceUseCase
+import com.matatoa.wheremystuff.domain.usecase.DeletePlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.GetAllPlacesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class StartScreenViewModel(
     getAllPlacesUseCase: GetAllPlacesUseCase,
-    private val addPlaceUseCase: AddPlaceUseCase
+    private val addPlaceUseCase: AddPlaceUseCase,
+    private val deletePlaceUseCase: DeletePlaceUseCase
 ) : ViewModel() {
     private val _state: MutableStateFlow<StartScreenState> =
         MutableStateFlow(value = StartScreenState())
@@ -40,6 +42,12 @@ class StartScreenViewModel(
             addPlaceUseCase.invoke(
                 place = place
             )
+        }
+    }
+
+    fun deletePlace(id: Int) {
+        viewModelScope.launch {
+            deletePlaceUseCase.invoke(id = id)
         }
     }
 }
