@@ -8,7 +8,7 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.matatoa.wheremystuff.presentation.placescreen.PlaceScreenRoot
+import com.matatoa.wheremystuff.presentation.placescreen.PlaceDetailsScreenRoot
 import com.matatoa.wheremystuff.presentation.startscreen.StartScreenRoot
 
 @Composable
@@ -33,7 +33,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             }
 
             entry<Route.PlaceDetailsScreen> { route ->
-                PlaceScreenRoot(
+                PlaceDetailsScreenRoot(
                     placeId = route.id,
                     onBackClick = navigator::goBack,
                 )
