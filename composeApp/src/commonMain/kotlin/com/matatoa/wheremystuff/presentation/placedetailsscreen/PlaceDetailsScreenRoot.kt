@@ -20,6 +20,21 @@ fun PlaceDetailsScreenRoot(
     PlaceDetailsScreen(
         state = state,
         onBackClick = onBackClick,
+        onSelectSubPlace = {
+            viewModel.selectSubPlace(id = it)
+        },
+        onSaveNewSubPlace = {
+            viewModel.addSubPlace(name = it)
+        },
+        onDeleteSubPlace = {
+            viewModel.deleteSubPlace(id = it)
+        },
+        onSaveNewStuff = { subPlaceId, stuffName ->
+            viewModel.addStuff(subPlaceId = subPlaceId, name = stuffName)
+        },
+        onDeleteStuff = {
+            viewModel.deleteStuff(stuffId = it)
+        },
         modifier = modifier
             .background(color = MaterialTheme.colorScheme.background)
     )

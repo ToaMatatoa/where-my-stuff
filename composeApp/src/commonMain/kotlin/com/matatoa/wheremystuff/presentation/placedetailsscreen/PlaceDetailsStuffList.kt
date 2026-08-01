@@ -1,5 +1,6 @@
 package com.matatoa.wheremystuff.presentation.placedetailsscreen
 
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -38,6 +39,7 @@ fun PlaceDetailsStuffList(
     subPlaceNameById: Map<Int, String>,
     showSubPlaceName: Boolean,
     onAddStuffClick: (() -> Unit)?,
+    onDeleteStuffClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (stuff.isEmpty()) {
@@ -62,6 +64,7 @@ fun PlaceDetailsStuffList(
             PlaceDetailsStuffListItem(
                 name = it.name,
                 subPlaceName = if (showSubPlaceName) subPlaceNameById[it.subPlaceId] else null,
+                onDeleteStuffClick = { onDeleteStuffClick(it.id) }
             )
         }
 
@@ -112,6 +115,7 @@ private fun PlaceDetailsStuffEmptyState(
 private fun PlaceDetailsStuffListItem(
     name: String,
     subPlaceName: String?,
+    onDeleteStuffClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -131,6 +135,12 @@ private fun PlaceDetailsStuffListItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp, vertical = 14.dp)
+                .combinedClickable(
+                    indication = null,
+                    interactionSource = null,
+                    onClick = {},
+                    onLongClick = onDeleteStuffClick
+                )
         ) {
             Text(
                 text = name,
