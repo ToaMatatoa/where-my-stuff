@@ -31,6 +31,15 @@ kotlin {
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
             implementation(libs.compose.ui)
+            implementation(libs.compose.uiToolingPreview)
+            implementation(libs.compose.components.resources)
+
+            //icons
+            implementation(libs.icons)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.compose.uiTooling)
         }
     }
 }

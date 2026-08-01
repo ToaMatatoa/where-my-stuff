@@ -15,7 +15,9 @@ out/
 
 # macOS
 .DS_Store
+# NB: "?" matches any single char, so this also matches dirs like "icons" — keep the exception below
 Icon?
+!composeApp/icons/
 
 # Android
 captures
