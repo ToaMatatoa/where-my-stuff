@@ -50,6 +50,9 @@ object Strings {
         const val ADD_STUFF_DIALOG_TITLE = "Add stuff to keep"
         const val ADD_STUFF_NAME_LABEL = "What do you keep here?"
         const val ADD_STUFF = "Add stuff to keep"
+        const val DELETE_STUFF_DIALOG_TITLE = "Do you want to delete this stuff from your list?"
+        fun deleteStuffDialogText(stuffName: String) =
+            "\"$stuffName\" will be deleted permanently from your list."
 
         const val NO_SUB_PLACES_TEXT =
             "Add your first sub-place, for example \"Kitchen\" or \"Balcony\""
