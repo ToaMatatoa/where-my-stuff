@@ -17,7 +17,7 @@ class StuffRepositoryImpl(
     val mutableStuffDataSource: MutableStuffDataSource
 ) : StuffRepository {
     override fun getStuffForPlace(placeId: Int): Flow<List<StuffEntity>> =
-        stuffDataSource.getStuffForSubPlace(placeId = placeId)
+        stuffDataSource.getStuffForPlace(placeId = placeId)
 
     override suspend fun addStuff(stuff: StuffEntity) =
         mutableStuffDataSource.addStuff(stuff = stuff)

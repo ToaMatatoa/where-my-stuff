@@ -25,7 +25,7 @@ interface StuffDao {
             ORDER BY stuff.id
         """
     )
-    fun getStuffForSubPlace(placeId: Int): Flow<List<StuffEntity>>
+    fun getStuffForPlace(placeId: Int): Flow<List<StuffEntity>>
 
     @Query(value = "DELETE FROM stuff WHERE id = :id")
     suspend fun deleteStuff(id: Int)
