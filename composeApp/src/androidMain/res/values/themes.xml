@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Launch theme. The system shows this while the process starts, then MainActivity's
+      installSplashScreen() hands over to postSplashScreenTheme once content is ready.
+    -->
+    <style name="Base.Theme.WhereMyStuff.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <!--
+          Use the *foreground* layer, not @mipmap/ic_launcher. The full adaptive icon carries its
+          own opaque background layer, which the system masks to a circle on top of
+          windowSplashScreenBackground - any difference between the two (colour management, or a
+          themed/tinted icon under dark mode) shows up as a ring around the icon. The foreground
+          layer is transparent outside the wordmark, so the background colour shows through
+          uniformly and there is nothing to mismatch.
+        -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.WhereMyStuff</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+
+    <!--
+      Below API 31 the library draws the whole splash *through* android:windowBackground (a
+      layer-list holding the background, the icon and its mask). Overriding it here would erase
+      the icon, so the override lives in values-v31 only - see that file.
+    -->
+    <style name="Theme.WhereMyStuff.Starting" parent="Base.Theme.WhereMyStuff.Starting" />
+
+    <!-- The theme the app actually runs with; unchanged from what the manifest used before. -->
+    <style name="Theme.WhereMyStuff" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/splash_background</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>

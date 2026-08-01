@@ -63,6 +63,7 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.core.splashscreen)
             implementation(libs.compose.uiToolingPreview)
 
             // koin
@@ -117,8 +118,22 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.matatoa.wheremystuff"
+            packageName = "Where My Stuff"
             packageVersion = "1.0.0"
+
+            macOS {
+                // packageName now contains spaces, so the bundle id must be set explicitly
+                bundleID = "com.matatoa.wheremystuff"
+                iconFile.set(project.file("icons/icon.icns"))
+            }
+            windows {
+                iconFile.set(project.file("icons/icon.ico"))
+            }
+            linux {
+                // deb package names must be lowercase and space-free
+                packageName = "where-my-stuff"
+                iconFile.set(project.file("icons/icon.png"))
+            }
         }
     }
 }
