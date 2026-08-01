@@ -19,6 +19,7 @@ val viewModelModule = module {
             addSubPlaceUseCase = get(),
             deleteSubPlaceUseCase = get(),
             addStuffUseCase = get(),
+            deleteStuffUseCase = get()
         )
     }
 }
