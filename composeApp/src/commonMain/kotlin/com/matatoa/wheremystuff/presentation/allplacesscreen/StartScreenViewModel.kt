@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.matatoa.wheremystuff.STOP_TIME_OUT_MILLIS
 import com.matatoa.wheremystuff.domain.model.PlaceData
-import com.matatoa.wheremystuff.domain.usecase.AddPlaceUseCase
-import com.matatoa.wheremystuff.domain.usecase.DeletePlaceUseCase
-import com.matatoa.wheremystuff.domain.usecase.GetAllPlacesUseCase
+import com.matatoa.wheremystuff.domain.usecase.place.AddPlaceUseCase
+import com.matatoa.wheremystuff.domain.usecase.place.DeletePlaceUseCase
+import com.matatoa.wheremystuff.domain.usecase.place.GetAllPlacesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

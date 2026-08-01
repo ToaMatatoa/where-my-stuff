@@ -13,7 +13,13 @@ val viewModelModule = module {
     viewModel { params ->
         PlaceDetailsScreenViewModel(
             placeId = params.get(),
-            getDetailPlaceUseCase = get(),
+            getPlaceDetailsUseCase = get(),
+            getAllSubPlacesUseCase = get(),
+            getStuffForPlaceUseCase = get(),
+            addSubPlaceUseCase = get(),
+            deleteSubPlaceUseCase = get(),
+            addStuffUseCase = get(),
+            deleteStuffUseCase = get()
         )
     }
 }

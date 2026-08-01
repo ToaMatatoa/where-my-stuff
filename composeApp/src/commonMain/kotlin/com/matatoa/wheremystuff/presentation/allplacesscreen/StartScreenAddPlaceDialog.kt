@@ -53,7 +53,7 @@ fun ShowAddPlaceDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = Strings.AllPlacesScreen.ADD_PLACE_DIALOG_TITLE)
+            Text(text = Strings.AllPlacesScreen.ADD_PLACE)
         },
         text = {
             Column(
@@ -106,12 +106,12 @@ fun ShowAddPlaceDialog(
                 onClick = onConfirm,
                 enabled = placeName.isNotBlank() && !isNameTaken,
             ) {
-                Text(text = Strings.AllPlacesScreen.ADD_PLACE_CONFIRM)
+                Text(text = Strings.Common.ADD)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = Strings.AllPlacesScreen.ADD_PLACE_CANCEL)
+                Text(text = Strings.Common.CANCEL)
             }
         },
     )

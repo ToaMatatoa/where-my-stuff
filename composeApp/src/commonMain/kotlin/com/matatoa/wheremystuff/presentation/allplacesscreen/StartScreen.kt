@@ -9,16 +9,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,12 +29,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.EMPTY_STRING
+import com.matatoa.wheremystuff.designsystem.PrimaryActionButton
 import com.matatoa.wheremystuff.designsystem.Strings
 import com.matatoa.wheremystuff.designsystem.TopBar
 import com.matatoa.wheremystuff.designsystem.theme.WhereMyStuffTheme
@@ -178,28 +175,10 @@ private fun StartScreenEmptyState(
                 .padding(horizontal = 40.dp),
         )
 
-        FilledTonalButton(
+        PrimaryActionButton(
+            text = Strings.AllPlacesScreen.ADD_PLACE,
             onClick = onAddNewPlaceClick,
-            colors = ButtonDefaults.filledTonalButtonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(height = 52.dp)
-                .padding(horizontal = 20.dp),
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = Strings.AllPlacesScreen.EMPTY_STATE_ADD_PLACE,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
-        }
+        )
     }
 }
 
@@ -229,28 +208,12 @@ private fun StartScreenCompletedState(
         }
 
         item {
-            FilledTonalButton(
+            PrimaryActionButton(
+                text = Strings.AllPlacesScreen.ADD_PLACE,
                 onClick = onAddNewPlaceClick,
-                colors = ButtonDefaults.filledTonalButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                ),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(height = 64.dp)
-                    .padding(start = 20.dp, top = 24.dp, end = 20.dp),
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = Strings.AllPlacesScreen.EMPTY_STATE_ADD_PLACE,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-            }
+                    .padding(top = 24.dp),
+            )
         }
     }
 }

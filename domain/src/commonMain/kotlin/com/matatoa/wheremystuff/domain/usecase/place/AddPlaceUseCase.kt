@@ -1,4 +1,4 @@
-package com.matatoa.wheremystuff.domain.usecase
+package com.matatoa.wheremystuff.domain.usecase.place
 
 import com.matatoa.wheremystuff.core.repository.PlaceRepository
 import com.matatoa.wheremystuff.domain.mapper.toPlaceEntity
