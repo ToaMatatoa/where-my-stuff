@@ -31,12 +31,12 @@ fun ShowDeletePlaceDialog(
                     contentColor = MaterialTheme.colorScheme.error,
                 ),
             ) {
-                Text(text = Strings.AllPlacesScreen.DELETE_PLACE_CONFIRM)
+                Text(text = Strings.Common.DELETE)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = Strings.AllPlacesScreen.ADD_PLACE_CANCEL)
+                Text(text = Strings.Common.CANCEL)
             }
         },
     )

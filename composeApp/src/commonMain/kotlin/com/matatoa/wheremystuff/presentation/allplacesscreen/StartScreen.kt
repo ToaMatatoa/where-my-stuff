@@ -194,7 +194,7 @@ private fun StartScreenEmptyState(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = Strings.AllPlacesScreen.EMPTY_STATE_ADD_PLACE,
+                    text = Strings.AllPlacesScreen.ADD_PLACE,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
                 )
@@ -245,7 +245,7 @@ private fun StartScreenCompletedState(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = Strings.AllPlacesScreen.EMPTY_STATE_ADD_PLACE,
+                        text = Strings.AllPlacesScreen.ADD_PLACE,
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
                     )
