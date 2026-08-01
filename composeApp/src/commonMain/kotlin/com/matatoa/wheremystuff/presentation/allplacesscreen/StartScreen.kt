@@ -212,7 +212,7 @@ private fun StartScreenCompletedState(
                 text = Strings.AllPlacesScreen.ADD_PLACE,
                 onClick = onAddNewPlaceClick,
                 modifier = Modifier
-                    .padding(top = 24.dp),
+                    .padding(top = 24.dp, bottom = 16.dp),
             )
         }
     }

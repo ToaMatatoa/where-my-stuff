@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      From API 31 the platform draws the splash itself via android:windowSplashScreenBackground,
+      and the library no longer routes the splash through android:windowBackground - so it is safe
+      to pin here, and it needs pinning: Theme.SplashScreen inherits Base.Theme.SplashScreen.DayNight,
+      which resolves to a *dark* DeviceDefault under night mode. Without this the activity's own
+      window went dark behind and after the splash in dark theme, while the splash itself stayed
+      light. Pinning it keeps startup identical in both themes.
+    -->
+    <style name="Theme.WhereMyStuff.Starting" parent="Base.Theme.WhereMyStuff.Starting">
+        <item name="android:windowBackground">@color/splash_background</item>
+    </style>
+</resources>
