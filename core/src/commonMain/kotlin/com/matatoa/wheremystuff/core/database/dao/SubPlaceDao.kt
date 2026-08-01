@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SubPlaceDao {
+    /** @return the id Room generated for the new row. */
     @Insert
-    suspend fun addSubPlace(subPlace: SubPlaceEntity)
+    suspend fun addSubPlace(subPlace: SubPlaceEntity): Long
 
     @Query(value = "SELECT * FROM sub_place WHERE placeId = :placeId ORDER BY id")
     fun getAllSubPlaces(placeId: Int): Flow<List<SubPlaceEntity>>

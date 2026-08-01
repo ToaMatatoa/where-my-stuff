@@ -1,14 +1,14 @@
 package com.matatoa.wheremystuff.domain.di
 
 import com.matatoa.wheremystuff.domain.usecase.place.AddPlaceUseCase
-import com.matatoa.wheremystuff.domain.usecase.stuff.AddStuffUseCase
-import com.matatoa.wheremystuff.domain.usecase.subplace.AddSubPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.place.DeletePlaceUseCase
-import com.matatoa.wheremystuff.domain.usecase.stuff.DeleteStuffUseCase
-import com.matatoa.wheremystuff.domain.usecase.subplace.DeleteSubPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.place.GetAllPlacesUseCase
 import com.matatoa.wheremystuff.domain.usecase.place.GetPlaceDetailsUseCase
+import com.matatoa.wheremystuff.domain.usecase.stuff.AddStuffUseCase
+import com.matatoa.wheremystuff.domain.usecase.stuff.DeleteStuffUseCase
 import com.matatoa.wheremystuff.domain.usecase.stuff.GetStuffForPlaceUseCase
+import com.matatoa.wheremystuff.domain.usecase.subplace.AddSubPlaceUseCase
+import com.matatoa.wheremystuff.domain.usecase.subplace.DeleteSubPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.subplace.GetAllSubPlacesUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module

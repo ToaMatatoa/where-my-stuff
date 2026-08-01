@@ -18,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.MAX_SUB_PLACES
@@ -84,10 +86,13 @@ private fun SubPlaceChip(
     else MaterialTheme.colorScheme.surfaceVariant
     val contentColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer
     else MaterialTheme.colorScheme.onSurfaceVariant
+    // Captured so the semantics block below is not assigning `selected` to itself.
+    val isSelected = selected
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
+            .semantics { this.selected = isSelected }
             .clip(shape = shape)
             .background(color = containerColor, shape = shape)
             .border(

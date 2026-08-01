@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.Flow
 interface SubPlaceRepository {
     fun getAllSubPlaces(placeId: Int): Flow<List<SubPlaceEntity>>
 
-    suspend fun addSubPlace(subPlace: SubPlaceEntity)
+    /** @return the id Room generated for the new sub-place. */
+    suspend fun addSubPlace(subPlace: SubPlaceEntity): Long
     suspend fun deleteSubPlace(id: Int)
 }
 
@@ -19,7 +20,7 @@ class SubPlaceRepositoryImpl(
     override fun getAllSubPlaces(placeId: Int): Flow<List<SubPlaceEntity>> =
         subPlaceDataSource.getAllSubPlaces(placeId = placeId)
 
-    override suspend fun addSubPlace(subPlace: SubPlaceEntity) =
+    override suspend fun addSubPlace(subPlace: SubPlaceEntity): Long =
         mutableSubPlaceDataSource.addSubPlace(subPlace = subPlace)
 
     override suspend fun deleteSubPlace(id: Int) =

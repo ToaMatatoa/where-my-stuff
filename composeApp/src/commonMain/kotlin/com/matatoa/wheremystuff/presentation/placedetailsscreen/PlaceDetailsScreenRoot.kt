@@ -33,7 +33,7 @@ fun PlaceDetailsScreenRoot(
             viewModel.addStuff(subPlaceId = subPlaceId, name = stuffName)
         },
         onDeleteStuff = {
-            viewModel.deleteStuff(stuffId = it)
+            viewModel.deleteStuff(id = it)
         },
         modifier = modifier
             .background(color = MaterialTheme.colorScheme.background)

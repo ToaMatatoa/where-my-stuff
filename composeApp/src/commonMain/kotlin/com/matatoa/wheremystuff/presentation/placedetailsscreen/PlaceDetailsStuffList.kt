@@ -6,23 +6,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.matatoa.wheremystuff.designsystem.PrimaryActionButton
 import com.matatoa.wheremystuff.designsystem.Strings
 import com.matatoa.wheremystuff.domain.model.StuffData
 
@@ -37,14 +34,14 @@ import com.matatoa.wheremystuff.domain.model.StuffData
 fun PlaceDetailsStuffList(
     stuff: List<StuffData>,
     subPlaceNameById: Map<Int, String>,
-    showSubPlaceName: Boolean,
+    isAllSelected: Boolean,
     onAddStuffClick: (() -> Unit)?,
     onDeleteStuffClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (stuff.isEmpty()) {
         PlaceDetailsStuffEmptyState(
-            text = if (showSubPlaceName) Strings.PlaceDetailsScreen.NO_STUFF_AT_ALL_TEXT
+            text = if (isAllSelected) Strings.PlaceDetailsScreen.NO_STUFF_AT_ALL_TEXT
             else Strings.PlaceDetailsScreen.NO_STUFF_TEXT,
             onAddStuffClick = onAddStuffClick,
             modifier = modifier,
@@ -64,14 +61,16 @@ fun PlaceDetailsStuffList(
         ) {
             PlaceDetailsStuffListItem(
                 name = it.name,
-                subPlaceName = if (showSubPlaceName) subPlaceNameById[it.subPlaceId] else null,
+                // Only the "All" list mixes sub-places, so only it needs the label.
+                subPlaceName = if (isAllSelected) subPlaceNameById[it.subPlaceId] else null,
                 onDeleteStuffClick = { onDeleteStuffClick(it.id) }
             )
         }
 
         if (onAddStuffClick != null) {
             item {
-                AddStuffButton(
+                PrimaryActionButton(
+                    text = Strings.PlaceDetailsScreen.ADD_STUFF,
                     onClick = onAddStuffClick,
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 16.dp),
@@ -107,7 +106,10 @@ private fun PlaceDetailsStuffEmptyState(
         )
 
         if (onAddStuffClick != null) {
-            AddStuffButton(onClick = onAddStuffClick)
+            PrimaryActionButton(
+                text = Strings.PlaceDetailsScreen.ADD_STUFF,
+                onClick = onAddStuffClick,
+            )
         }
     }
 }
@@ -135,13 +137,13 @@ private fun PlaceDetailsStuffListItem(
             verticalArrangement = Arrangement.spacedBy(space = 2.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 12.dp)
                 .combinedClickable(
                     indication = null,
                     interactionSource = null,
                     onClick = {},
                     onLongClick = onDeleteStuffClick
                 )
+                .padding(horizontal = 32.dp, vertical = 12.dp)
         ) {
             Text(
                 text = name,
@@ -161,29 +163,5 @@ private fun PlaceDetailsStuffListItem(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun AddStuffButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    FilledTonalButton(
-        onClick = onClick,
-        colors = ButtonDefaults.filledTonalButtonColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-        ),
-        modifier = modifier
-            .fillMaxWidth()
-            .height(height = 52.dp)
-            .padding(horizontal = 20.dp),
-    ) {
-        Text(
-            text = Strings.PlaceDetailsScreen.ADD_STUFF,
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Bold,
-        )
     }
 }

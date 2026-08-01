@@ -35,8 +35,6 @@ object Strings {
     object PlaceDetailsScreen {
         const val EMPTY_STATE_TEXT =
             "You have some problems with this place. Delete it and add again please!"
-
-        /** The predefined chip that aggregates the stuff of every sub-place. */
         const val ADD_SUB_PLACE = "Add sub-place"
 
         const val ADD_SUB_PLACE_DIALOG_TITLE = "Add sub-place"

@@ -7,6 +7,7 @@ import com.matatoa.wheremystuff.domain.model.SubPlaceData
 class AddSubPlaceUseCase(
     val subPlaceRepository: SubPlaceRepository
 ) {
-    suspend operator fun invoke(subPlace: SubPlaceData) =
-        subPlaceRepository.addSubPlace(subPlace = subPlace.toSubPlaceEntity())
+    /** @return the id of the new sub-place, so callers can select it straight away. */
+    suspend operator fun invoke(subPlace: SubPlaceData): Int =
+        subPlaceRepository.addSubPlace(subPlace = subPlace.toSubPlaceEntity()).toInt()
 }

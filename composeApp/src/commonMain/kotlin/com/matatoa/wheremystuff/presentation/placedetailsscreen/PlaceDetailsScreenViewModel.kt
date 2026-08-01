@@ -40,16 +40,14 @@ class PlaceDetailsScreenViewModel(
             getStuffForPlaceUseCase.invoke(placeId = placeId),
             selectedSubPlaceId,
         ) { place, subPlaces, allStuff, selectedId ->
-            val selection = selectedId?.takeIf { id -> subPlaces.any { it.id == id } }
-
             PlaceScreenState(
                 isLoading = false,
                 place = place,
                 subPlaces = subPlaces,
-                selectedSubPlaceId = selection,
-                stuff = when (selection) {
+                selectedSubPlaceId = selectedId,
+                stuff = when (selectedId) {
                     null -> allStuff
-                    else -> allStuff.filter { it.subPlaceId == selection }
+                    else -> allStuff.filter { it.subPlaceId == selectedId }
                 },
             )
         }.stateIn(
@@ -63,15 +61,22 @@ class PlaceDetailsScreenViewModel(
     }
 
     fun addSubPlace(name: String) = viewModelScope.launch {
-        addSubPlaceUseCase.invoke(
+        val newSubPlaceId = addSubPlaceUseCase.invoke(
             subPlace = SubPlaceData(
                 placeId = placeId,
                 name = name
             )
         )
+
+        // Land the user in the sub-place they just created rather than leaving them on "All",
+        // where there is nothing to add stuff to.
+        selectedSubPlaceId.value = newSubPlaceId
     }
 
     fun deleteSubPlace(id: Int) = viewModelScope.launch {
+        // Fall back to "All" first so the screen never points at a sub-place that is gone.
+        if (selectedSubPlaceId.value == id) selectedSubPlaceId.value = null
+
         deleteSubPlaceUseCase.invoke(id = id)
     }
 
@@ -84,8 +89,8 @@ class PlaceDetailsScreenViewModel(
         )
     }
 
-    fun deleteStuff(stuffId: Int) = viewModelScope.launch {
-        deleteStuffUseCase.invoke(id = stuffId)
+    fun deleteStuff(id: Int) = viewModelScope.launch {
+        deleteStuffUseCase.invoke(id = id)
     }
 }
 

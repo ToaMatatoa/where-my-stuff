@@ -110,7 +110,9 @@ fun PlaceDetailsScreen(
     )
 
     ShowAddStuffDialog(
-        show = showAddStuffDialog,
+        // Dialog visibility survives process death but the selection does not, so pair them:
+        // without this the dialog could reappear on "All" and silently add nothing.
+        show = showAddStuffDialog && state.selectedSubPlaceId != null,
         stuffName = stuffName,
         onStuffNameChange = { stuffName = it },
         onConfirm = {
@@ -232,7 +234,7 @@ private fun PlaceDetailsScreenCompletedState(
         PlaceDetailsStuffList(
             stuff = state.stuff,
             subPlaceNameById = subPlaceNameById,
-            showSubPlaceName = isAllSelected,
+            isAllSelected = isAllSelected,
             // Stuff always belongs to one sub-place, so "All" is a read-only overview.
             onAddStuffClick = if (isAllSelected) null else onAddStuffClick,
             onDeleteStuffClick = onDeleteStuffClick
