@@ -56,6 +56,7 @@ fun PlaceDetailsStuffList(
         contentPadding = PaddingValues(top = 8.dp),
         modifier = modifier
             .fillMaxSize()
+            .padding(top = 8.dp)
             .navigationBarsPadding(),
     ) {
         items(
@@ -73,7 +74,7 @@ fun PlaceDetailsStuffList(
                 AddStuffButton(
                     onClick = onAddStuffClick,
                     modifier = Modifier
-                        .padding(top = 24.dp),
+                        .padding(top = 8.dp, bottom = 16.dp),
                 )
             }
         }
@@ -127,14 +128,14 @@ private fun PlaceDetailsStuffListItem(
             color = MaterialTheme.colorScheme.outline,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 40.dp)
+                .padding(horizontal = 44.dp)
         )
 
         Column(
             verticalArrangement = Arrangement.spacedBy(space = 2.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 14.dp)
+                .padding(horizontal = 32.dp, vertical = 12.dp)
                 .combinedClickable(
                     indication = null,
                     interactionSource = null,
