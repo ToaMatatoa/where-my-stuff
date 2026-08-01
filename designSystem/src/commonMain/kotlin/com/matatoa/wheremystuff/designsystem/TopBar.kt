@@ -56,7 +56,7 @@ fun TopBar(
                 if (titleIcon != null)
                     Icon(
                         imageVector = titleIcon,
-                        contentDescription = null,
+                        contentDescription = Strings.Common.PLACE_ICON,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
                             .size(size = 32.dp)
