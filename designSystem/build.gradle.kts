@@ -37,5 +37,9 @@ kotlin {
             //icons
             implementation(libs.icons)
         }
+
+        androidMain.dependencies {
+            implementation(libs.compose.uiTooling)
+        }
     }
 }

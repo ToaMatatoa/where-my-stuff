@@ -46,7 +46,7 @@ fun PrimaryActionButton(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun PrimaryActionButtonPreview() {
     WhereMyStuffTheme {
