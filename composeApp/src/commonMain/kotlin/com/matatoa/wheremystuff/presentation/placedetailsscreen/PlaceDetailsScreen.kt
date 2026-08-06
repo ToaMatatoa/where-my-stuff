@@ -20,13 +20,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.EMPTY_STRING
-import com.matatoa.wheremystuff.designsystem.Strings
 import com.matatoa.wheremystuff.designsystem.TopBar
 import com.matatoa.wheremystuff.designsystem.theme.WhereMyStuffTheme
 import com.matatoa.wheremystuff.domain.model.PlaceData
 import com.matatoa.wheremystuff.domain.model.StuffData
 import com.matatoa.wheremystuff.domain.model.SubPlaceData
 import com.matatoa.wheremystuff.presentation.allplacesscreen.PlaceIcon
+import org.jetbrains.compose.resources.stringResource
+import wheremystuff.composeapp.generated.resources.Res
+import wheremystuff.composeapp.generated.resources.place_details_empty_state
+import wheremystuff.composeapp.generated.resources.place_details_no_sub_places
 
 @Composable
 fun PlaceDetailsScreen(
@@ -189,7 +192,7 @@ private fun PlaceDetailsScreenEmptyState(
             .fillMaxSize(),
     ) {
         Text(
-            text = Strings.PlaceDetailsScreen.EMPTY_STATE_TEXT,
+            text = stringResource(Res.string.place_details_empty_state),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
@@ -252,7 +255,7 @@ private fun PlaceDetailsNoSubPlacesState(
             .fillMaxSize(),
     ) {
         Text(
-            text = Strings.PlaceDetailsScreen.NO_SUB_PLACES_TEXT,
+            text = stringResource(Res.string.place_details_no_sub_places),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,

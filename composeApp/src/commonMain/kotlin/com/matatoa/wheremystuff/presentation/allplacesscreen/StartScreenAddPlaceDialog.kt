@@ -28,8 +28,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.EMPTY_STRING
 import com.matatoa.wheremystuff.NEW_PLACE_LENGTH
-import com.matatoa.wheremystuff.designsystem.Strings
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
+import wheremystuff.composeapp.generated.resources.Res
+import wheremystuff.composeapp.generated.resources.all_places_add_place
+import wheremystuff.composeapp.generated.resources.all_places_icon_label
+import wheremystuff.composeapp.generated.resources.all_places_name_label
+import wheremystuff.composeapp.generated.resources.all_places_name_taken
+import wheremystuff.composeapp.generated.resources.common_add
+import wheremystuff.composeapp.generated.resources.common_cancel
 
 @Composable
 fun ShowAddPlaceDialog(
@@ -53,7 +60,7 @@ fun ShowAddPlaceDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = Strings.AllPlacesScreen.ADD_PLACE)
+            Text(text = stringResource(Res.string.all_places_add_place))
         },
         text = {
             Column(
@@ -67,10 +74,10 @@ fun ShowAddPlaceDialog(
                     },
                     singleLine = true,
                     isError = isNameTaken,
-                    label = { Text(text = Strings.AllPlacesScreen.ADD_PLACE_NAME_LABEL) },
+                    label = { Text(text = stringResource(Res.string.all_places_name_label)) },
                     supportingText =
                         if (isNameTaken) {
-                            { Text(text = Strings.AllPlacesScreen.ADD_PLACE_NAME_TAKEN) }
+                            { Text(text = stringResource(Res.string.all_places_name_taken)) }
                         } else if (placeName.isNotEmpty()) {
                             {
                                 Text(
@@ -88,7 +95,7 @@ fun ShowAddPlaceDialog(
                 )
 
                 Text(
-                    text = Strings.AllPlacesScreen.ADD_PLACE_ICON_LABEL,
+                    text = stringResource(Res.string.all_places_icon_label),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -106,12 +113,12 @@ fun ShowAddPlaceDialog(
                 onClick = onConfirm,
                 enabled = placeName.isNotBlank() && !isNameTaken,
             ) {
-                Text(text = Strings.Common.ADD)
+                Text(text = stringResource(Res.string.common_add))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = Strings.Common.CANCEL)
+                Text(text = stringResource(Res.string.common_cancel))
             }
         },
     )

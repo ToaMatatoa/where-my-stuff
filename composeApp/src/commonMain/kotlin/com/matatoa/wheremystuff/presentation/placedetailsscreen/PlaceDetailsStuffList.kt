@@ -20,8 +20,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.designsystem.PrimaryActionButton
-import com.matatoa.wheremystuff.designsystem.Strings
 import com.matatoa.wheremystuff.domain.model.StuffData
+import org.jetbrains.compose.resources.stringResource
+import wheremystuff.composeapp.generated.resources.Res
+import wheremystuff.composeapp.generated.resources.place_details_add_stuff
+import wheremystuff.composeapp.generated.resources.place_details_no_stuff
+import wheremystuff.composeapp.generated.resources.place_details_no_stuff_at_all
 
 /**
  * The stuff kept in the selected sub-place.
@@ -41,8 +45,8 @@ fun PlaceDetailsStuffList(
 ) {
     if (stuff.isEmpty()) {
         PlaceDetailsStuffEmptyState(
-            text = if (isAllSelected) Strings.PlaceDetailsScreen.NO_STUFF_AT_ALL_TEXT
-            else Strings.PlaceDetailsScreen.NO_STUFF_TEXT,
+            text = if (isAllSelected) stringResource(Res.string.place_details_no_stuff_at_all)
+            else stringResource(Res.string.place_details_no_stuff),
             onAddStuffClick = onAddStuffClick,
             modifier = modifier,
         )
@@ -70,7 +74,7 @@ fun PlaceDetailsStuffList(
         if (onAddStuffClick != null) {
             item {
                 PrimaryActionButton(
-                    text = Strings.PlaceDetailsScreen.ADD_STUFF,
+                    text = stringResource(Res.string.place_details_add_stuff),
                     onClick = onAddStuffClick,
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 16.dp),
@@ -107,7 +111,7 @@ private fun PlaceDetailsStuffEmptyState(
 
         if (onAddStuffClick != null) {
             PrimaryActionButton(
-                text = Strings.PlaceDetailsScreen.ADD_STUFF,
+                text = stringResource(Res.string.place_details_add_stuff),
                 onClick = onAddStuffClick,
             )
         }

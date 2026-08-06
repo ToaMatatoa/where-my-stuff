@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Russian translations. Keys and order mirror values/strings.xml — the English source of each
+  entry is quoted in the comment above it.
+
+  Note: an empty value renders as empty text, it does NOT fall back to English. Only a key that
+  is absent from this file falls back. So delete a line rather than leaving it blank.
+
+  Use « » for quotation marks, and keep the %1$s placeholder — it can move anywhere in the
+  sentence, but it must stay %1$s.
+
+  %1$s is a name the user typed, so its gender is unknown. Never agree a participle with it
+  directly ("«Ноутбук» будет удалена") — lead with the category noun instead
+  ("Вещь «Ноутбук» будет удалена") so the agreement locks onto a word we control.
+-->
+<resources>
+
+    <!-- Common -->
+    <!-- The app name, intentionally left in English. -->
+    <string name="common_top_bar_title">Where my Stuff</string>
+    <!-- "Place icon" (place-icon accessibility label) -->
+    <string name="common_place_icon">Иконка места</string>
+    <!-- "Add" (dialog confirm button) -->
+    <string name="common_add">Добавить</string>
+    <!-- "All" (the chip showing stuff from every sub-place) -->
+    <string name="common_all">Все</string>
+    <!-- "Cancel" (dialog dismiss button) -->
+    <string name="common_cancel">Отмена</string>
+    <!-- "Delete" (dialog confirm button) -->
+    <string name="common_delete">Удалить</string>
+
+    <!-- All places screen -->
+    <!-- "You haven’t added any places for your stuff. Please add at least one" -->
+    <string name="all_places_empty_state">Вы ещё не добавили ни одного места. Пожалуйста, добавьте хотя бы одно</string>
+    <!-- "Add place" -->
+    <string name="all_places_add_place">Добавить место</string>
+    <!-- "Place name" (text field label) -->
+    <string name="all_places_name_label">Название места</string>
+    <!-- "A place with this name already exists" (text field error) -->
+    <string name="all_places_name_taken">Место с таким названием уже существует</string>
+    <!-- "Choose an icon (optional)" -->
+    <string name="all_places_icon_label">Выберите иконку (необязательно)</string>
+    <!-- "Do you want to delete this place?" -->
+    <string name="all_places_delete_dialog_title">Вы хотите удалить это место?</string>
+    <!-- "“%1$s” will be deleted permanently." — %1$s is the place name -->
+    <string name="all_places_delete_dialog_text">Место «%1$s» будет удалено навсегда</string>
+
+    <!-- Place details screen -->
+    <!-- "You have some problems with this place. Delete it and add again please!" -->
+    <string name="place_details_empty_state">Возникли некоторые проблемы с этим местом. Пожалуйста, удалите его и добавьте снова</string>
+    <!-- "Add your first sub-place, for example “Kitchen” or “Balcony”" -->
+    <string name="place_details_no_sub_places">Добавьте первое местоположение, например, «Балкон» или «Кухня»</string>
+    <!-- "Nothing is kept here yet" -->
+    <string name="place_details_no_stuff">Здесь ещё ничего не хранится</string>
+    <!-- "You haven’t added any stuff to this place yet. Choose a sub-place above to add some" -->
+    <string name="place_details_no_stuff_at_all">Вы ещё не добавили никаких вещей в это место. Выберите местоположение выше, чтобы что-то добавить</string>
+
+    <!-- Place details screen — sub-places -->
+    <!-- "Add sub-place" (the + chip accessibility label, and the add dialog title) -->
+    <string name="place_details_add_sub_place">Добавить местоположение</string>
+    <!-- "Sub-place name" (text field label) -->
+    <string name="place_details_sub_place_name_label">Название местоположения</string>
+    <!-- "A sub-place with this name already exists" (text field error) -->
+    <string name="place_details_sub_place_name_taken">Местоположение с таким названием уже существует</string>
+    <!-- "Do you want to delete this sub-place?" -->
+    <string name="place_details_delete_sub_place_dialog_title">Вы хотите удалить это местоположение?</string>
+    <!--
+      "“%1$s” and everything kept in it will be deleted permanently." — %1$s is the sub-place name.
+      Gender-safe as written: «всё» carries the agreement, so no leading noun is needed here.
+    -->
+    <string name="place_details_delete_sub_place_dialog_text">«%1$s» и всё, что там хранится, будет удалено навсегда</string>
+
+    <!-- Place details screen — stuff -->
+    <!-- "Add stuff to keep" (button, and the add dialog title) -->
+    <string name="place_details_add_stuff">Добавить вещь для хранения</string>
+    <!-- "What do you keep here?" (text field label) -->
+    <string name="place_details_stuff_name_label">Что вы здесь храните?</string>
+    <!-- "Do you want to delete this stuff from your list?" -->
+    <string name="place_details_delete_stuff_dialog_title">Вы хотите удалить эту вещь из вашего списка?</string>
+    <!-- "“%1$s” will be deleted permanently from your list." — %1$s is the stuff name -->
+    <string name="place_details_delete_stuff_dialog_text">Вещь «%1$s» будет навсегда удалена из вашего списка</string>
+
+</resources>

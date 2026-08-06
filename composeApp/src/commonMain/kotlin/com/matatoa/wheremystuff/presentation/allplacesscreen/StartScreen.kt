@@ -35,10 +35,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.EMPTY_STRING
 import com.matatoa.wheremystuff.designsystem.PrimaryActionButton
-import com.matatoa.wheremystuff.designsystem.Strings
 import com.matatoa.wheremystuff.designsystem.TopBar
 import com.matatoa.wheremystuff.designsystem.theme.WhereMyStuffTheme
 import com.matatoa.wheremystuff.domain.model.PlaceData
+import org.jetbrains.compose.resources.stringResource
+import wheremystuff.composeapp.generated.resources.Res
+import wheremystuff.composeapp.generated.resources.all_places_add_place
+import wheremystuff.composeapp.generated.resources.all_places_empty_state
+import wheremystuff.composeapp.generated.resources.common_place_icon
+import wheremystuff.composeapp.generated.resources.common_top_bar_title
 
 @Composable
 fun StartScreen(
@@ -68,7 +73,7 @@ fun StartScreen(
             .fillMaxSize(),
     ) {
         TopBar(
-            title = Strings.Common.TOP_BAR_TITLE,
+            title = stringResource(Res.string.common_top_bar_title),
             modifier = Modifier
                 .padding(top = 48.dp),
         )
@@ -167,7 +172,7 @@ private fun StartScreenEmptyState(
             .fillMaxSize(),
     ) {
         Text(
-            text = Strings.AllPlacesScreen.EMPTY_STATE_TEXT,
+            text = stringResource(Res.string.all_places_empty_state),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
@@ -176,7 +181,7 @@ private fun StartScreenEmptyState(
         )
 
         PrimaryActionButton(
-            text = Strings.AllPlacesScreen.ADD_PLACE,
+            text = stringResource(Res.string.all_places_add_place),
             onClick = onAddNewPlaceClick,
         )
     }
@@ -209,7 +214,7 @@ private fun StartScreenCompletedState(
 
         item {
             PrimaryActionButton(
-                text = Strings.AllPlacesScreen.ADD_PLACE,
+                text = stringResource(Res.string.all_places_add_place),
                 onClick = onAddNewPlaceClick,
                 modifier = Modifier
                     .padding(top = 24.dp, bottom = 16.dp),
@@ -257,7 +262,7 @@ private fun StartScreenBaseCompletedListItem(
             AnimatedVisibility(visible = iconName.isNotEmpty()) {
                 Icon(
                     imageVector = PlaceIcon.iconFor(name = iconName),
-                    contentDescription = Strings.Common.PLACE_ICON,
+                    contentDescription = stringResource(Res.string.common_place_icon),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .size(size = 32.dp)

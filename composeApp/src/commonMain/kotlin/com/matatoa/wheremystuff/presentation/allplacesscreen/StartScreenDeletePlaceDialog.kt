@@ -6,7 +6,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import com.matatoa.wheremystuff.designsystem.Strings
+import org.jetbrains.compose.resources.stringResource
+import wheremystuff.composeapp.generated.resources.Res
+import wheremystuff.composeapp.generated.resources.all_places_delete_dialog_text
+import wheremystuff.composeapp.generated.resources.all_places_delete_dialog_title
+import wheremystuff.composeapp.generated.resources.common_cancel
+import wheremystuff.composeapp.generated.resources.common_delete
 
 @Composable
 fun ShowDeletePlaceDialog(
@@ -19,10 +24,10 @@ fun ShowDeletePlaceDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = Strings.AllPlacesScreen.DELETE_PLACE_DIALOG_TITLE)
+            Text(text = stringResource(Res.string.all_places_delete_dialog_title))
         },
         text = {
-            Text(text = Strings.AllPlacesScreen.deletePlaceDialogText(placeName = placeName))
+            Text(text = stringResource(Res.string.all_places_delete_dialog_text, placeName))
         },
         confirmButton = {
             TextButton(
@@ -31,12 +36,12 @@ fun ShowDeletePlaceDialog(
                     contentColor = MaterialTheme.colorScheme.error,
                 ),
             ) {
-                Text(text = Strings.Common.DELETE)
+                Text(text = stringResource(Res.string.common_delete))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = Strings.Common.CANCEL)
+                Text(text = stringResource(Res.string.common_cancel))
             }
         },
     )
