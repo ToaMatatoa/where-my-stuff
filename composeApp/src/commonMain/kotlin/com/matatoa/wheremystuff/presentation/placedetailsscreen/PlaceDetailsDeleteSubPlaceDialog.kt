@@ -6,7 +6,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import com.matatoa.wheremystuff.designsystem.Strings
+import org.jetbrains.compose.resources.stringResource
+import wheremystuff.composeapp.generated.resources.Res
+import wheremystuff.composeapp.generated.resources.common_cancel
+import wheremystuff.composeapp.generated.resources.common_delete
+import wheremystuff.composeapp.generated.resources.place_details_delete_sub_place_dialog_text
+import wheremystuff.composeapp.generated.resources.place_details_delete_sub_place_dialog_title
 
 @Composable
 fun ShowDeleteSubPlaceDialog(
@@ -19,12 +24,13 @@ fun ShowDeleteSubPlaceDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = Strings.PlaceDetailsScreen.DELETE_SUB_PLACE_DIALOG_TITLE)
+            Text(text = stringResource(Res.string.place_details_delete_sub_place_dialog_title))
         },
         text = {
             Text(
-                text = Strings.PlaceDetailsScreen.deleteSubPlaceDialogText(
-                    subPlaceName = subPlaceName
+                text = stringResource(
+                    Res.string.place_details_delete_sub_place_dialog_text,
+                    subPlaceName
                 )
             )
         },
@@ -35,12 +41,12 @@ fun ShowDeleteSubPlaceDialog(
                     contentColor = MaterialTheme.colorScheme.error,
                 ),
             ) {
-                Text(text = Strings.Common.DELETE)
+                Text(text = stringResource(Res.string.common_delete))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = Strings.Common.CANCEL)
+                Text(text = stringResource(Res.string.common_cancel))
             }
         },
     )

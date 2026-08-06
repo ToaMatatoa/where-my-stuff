@@ -13,8 +13,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.style.TextAlign
 import com.matatoa.wheremystuff.NEW_STUFF_LENGTH
-import com.matatoa.wheremystuff.designsystem.Strings
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
+import wheremystuff.composeapp.generated.resources.Res
+import wheremystuff.composeapp.generated.resources.common_add
+import wheremystuff.composeapp.generated.resources.common_cancel
+import wheremystuff.composeapp.generated.resources.place_details_add_stuff
+import wheremystuff.composeapp.generated.resources.place_details_stuff_name_label
 
 @Composable
 fun ShowAddStuffDialog(
@@ -35,7 +40,7 @@ fun ShowAddStuffDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = Strings.PlaceDetailsScreen.ADD_STUFF_DIALOG_TITLE)
+            Text(text = stringResource(Res.string.place_details_add_stuff))
         },
         text = {
             OutlinedTextField(
@@ -45,7 +50,7 @@ fun ShowAddStuffDialog(
                         onStuffNameChange(it)
                 },
                 singleLine = true,
-                label = { Text(text = Strings.PlaceDetailsScreen.ADD_STUFF_NAME_LABEL) },
+                label = { Text(text = stringResource(Res.string.place_details_stuff_name_label)) },
                 supportingText =
                     if (stuffName.isNotEmpty()) {
                         {
@@ -68,12 +73,12 @@ fun ShowAddStuffDialog(
                 onClick = onConfirm,
                 enabled = stuffName.isNotBlank(),
             ) {
-                Text(text = Strings.Common.ADD)
+                Text(text = stringResource(Res.string.common_add))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = Strings.Common.CANCEL)
+                Text(text = stringResource(Res.string.common_cancel))
             }
         },
     )

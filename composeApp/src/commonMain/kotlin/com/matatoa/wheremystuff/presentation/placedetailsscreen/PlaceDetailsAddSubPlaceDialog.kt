@@ -13,8 +13,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.style.TextAlign
 import com.matatoa.wheremystuff.NEW_SUB_PLACE_LENGTH
-import com.matatoa.wheremystuff.designsystem.Strings
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
+import wheremystuff.composeapp.generated.resources.Res
+import wheremystuff.composeapp.generated.resources.common_add
+import wheremystuff.composeapp.generated.resources.common_cancel
+import wheremystuff.composeapp.generated.resources.place_details_add_sub_place
+import wheremystuff.composeapp.generated.resources.place_details_sub_place_name_label
+import wheremystuff.composeapp.generated.resources.place_details_sub_place_name_taken
 
 @Composable
 fun ShowAddSubPlaceDialog(
@@ -36,7 +42,7 @@ fun ShowAddSubPlaceDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = Strings.PlaceDetailsScreen.ADD_SUB_PLACE_DIALOG_TITLE)
+            Text(text = stringResource(Res.string.place_details_add_sub_place))
         },
         text = {
             OutlinedTextField(
@@ -47,10 +53,10 @@ fun ShowAddSubPlaceDialog(
                 },
                 singleLine = true,
                 isError = isNameTaken,
-                label = { Text(text = Strings.PlaceDetailsScreen.ADD_SUB_PLACE_NAME_LABEL) },
+                label = { Text(text = stringResource(Res.string.place_details_sub_place_name_label)) },
                 supportingText =
                     if (isNameTaken) {
-                        { Text(text = Strings.PlaceDetailsScreen.ADD_SUB_PLACE_NAME_TAKEN) }
+                        { Text(text = stringResource(Res.string.place_details_sub_place_name_taken)) }
                     } else if (subPlaceName.isNotEmpty()) {
                         {
                             Text(
@@ -72,12 +78,12 @@ fun ShowAddSubPlaceDialog(
                 onClick = onConfirm,
                 enabled = subPlaceName.isNotBlank() && !isNameTaken,
             ) {
-                Text(text = Strings.Common.ADD)
+                Text(text = stringResource(Res.string.common_add))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = Strings.Common.CANCEL)
+                Text(text = stringResource(Res.string.common_cancel))
             }
         },
     )

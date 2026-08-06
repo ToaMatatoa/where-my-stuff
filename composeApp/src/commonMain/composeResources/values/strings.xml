@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+    <string name="common_top_bar_title">Where my Stuff</string>
+    <string name="common_place_icon">Place icon</string>
+    <string name="common_add">Add</string>
+    <string name="common_all">All</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_delete">Delete</string>
+
+    <!-- All places screen -->
+    <string name="all_places_empty_state">You haven’t added any places for your stuff. Please add at least one</string>
+    <string name="all_places_add_place">Add place</string>
+    <string name="all_places_name_label">Place name</string>
+    <string name="all_places_name_taken">A place with this name already exists</string>
+    <string name="all_places_icon_label">Choose an icon (optional)</string>
+    <string name="all_places_delete_dialog_title">Do you want to delete this place?</string>
+    <!-- %1$s — the place name -->
+    <string name="all_places_delete_dialog_text">“%1$s” will be deleted permanently.</string>
+
+    <!-- Place details screen -->
+    <string name="place_details_empty_state">You have some problems with this place. Delete it and add again please!</string>
+    <string name="place_details_no_sub_places">Add your first sub-place, for example “Kitchen” or “Balcony”</string>
+    <string name="place_details_no_stuff">Nothing is kept here yet</string>
+    <string name="place_details_no_stuff_at_all">You haven’t added any stuff to this place yet. Choose a sub-place above to add some</string>
+
+    <!-- Place details screen — sub-places -->
+    <string name="place_details_add_sub_place">Add sub-place</string>
+    <string name="place_details_sub_place_name_label">Sub-place name</string>
+    <string name="place_details_sub_place_name_taken">A sub-place with this name already exists</string>
+    <string name="place_details_delete_sub_place_dialog_title">Do you want to delete this sub-place?</string>
+    <!-- %1$s — the sub-place name -->
+    <string name="place_details_delete_sub_place_dialog_text">“%1$s” and everything kept in it will be deleted permanently.</string>
+
+    <!-- Place details screen — stuff -->
+    <string name="place_details_add_stuff">Add stuff to keep</string>
+    <string name="place_details_stuff_name_label">What do you keep here?</string>
+    <string name="place_details_delete_stuff_dialog_title">Do you want to delete this stuff from your list?</string>
+    <!-- %1$s — the stuff name -->
+    <string name="place_details_delete_stuff_dialog_text">“%1$s” will be deleted permanently from your list.</string>
+
+</resources>

@@ -23,10 +23,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.MAX_SUB_PLACES
-import com.matatoa.wheremystuff.designsystem.Strings
 import com.matatoa.wheremystuff.domain.model.SubPlaceData
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Plus
+import org.jetbrains.compose.resources.stringResource
+import wheremystuff.composeapp.generated.resources.Res
+import wheremystuff.composeapp.generated.resources.common_all
+import wheremystuff.composeapp.generated.resources.place_details_add_sub_place
 
 /**
  * The sub-places of the open place, as a wrapping row of chips.
@@ -52,7 +55,7 @@ fun PlaceDetailsSubPlacesRow(
             .padding(horizontal = 24.dp, vertical = 8.dp),
     ) {
         SubPlaceChip(
-            name = Strings.Common.ALL,
+            name = stringResource(Res.string.common_all),
             selected = selectedSubPlaceId == null,
             onClick = { onSelectSubPlace(null) },
             onLongClick = null,
@@ -138,7 +141,7 @@ private fun AddSubPlaceChip(
     ) {
         Icon(
             imageVector = TablerIcons.Plus,
-            contentDescription = Strings.PlaceDetailsScreen.ADD_SUB_PLACE,
+            contentDescription = stringResource(Res.string.place_details_add_sub_place),
             tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .size(size = 20.dp),

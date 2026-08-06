@@ -4,6 +4,20 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<!--
+	  The languages the bundle claims to support. iOS picks the app language by intersecting this
+	  list with the user's preferred languages; without an entry here it reports English no matter
+	  what the device is set to, and the Compose values-ru resources would never be selected.
+	  Keep this in sync with the values-<lang> folders in composeApp/composeResources.
+	-->
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>ru</string>
+	</array>
+	<!-- Deliberately not localized: the app name stays English on every device. -->
 	<key>CFBundleDisplayName</key>
 	<string>Where My Stuff</string>
 	<!--
