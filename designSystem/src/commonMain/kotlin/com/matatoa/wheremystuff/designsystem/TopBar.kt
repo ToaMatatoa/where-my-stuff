@@ -41,7 +41,7 @@ fun TopBar(
                 IconButton(onClick = onBackClick) {
                     Icon(
                         imageVector = TablerIcons.ArrowLeft,
-                        contentDescription = Strings.Common.BACK,
+                        contentDescription = null,
                         tint = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.size(28.dp),
                     )
@@ -56,7 +56,7 @@ fun TopBar(
                 if (titleIcon != null)
                     Icon(
                         imageVector = titleIcon,
-                        contentDescription = Strings.Common.PLACE_ICON,
+                        contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
                             .size(size = 32.dp)
@@ -76,7 +76,7 @@ fun TopBar(
                 IconButton(onClick = onShowSearchFilterClick) {
                     Icon(
                         imageVector = TablerIcons.ListSearch,
-                        contentDescription = Strings.Common.SEARCH,
+                        contentDescription = null,
                         tint = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.size(28.dp),
                     )
@@ -97,7 +97,7 @@ fun TopBar(
 private fun TopBarPreview() {
     WhereMyStuffTheme {
         TopBar(
-            title = Strings.Common.TOP_BAR_TITLE,
+            title = "Where My Stuff",
             showBackButton = true,
             showSearchFilter = true,
         )
