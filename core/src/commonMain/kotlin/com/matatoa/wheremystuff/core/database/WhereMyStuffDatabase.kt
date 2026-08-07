@@ -1,5 +1,6 @@
 package com.matatoa.wheremystuff.core.database
 
+import androidx.room.AutoMigration
 import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -16,7 +17,8 @@ import kotlinx.coroutines.IO
 
 @Database(
     entities = [PlaceEntity::class, SubPlaceEntity::class, StuffEntity::class],
-    version = 2
+    version = 3,
+    autoMigrations = [AutoMigration(from = 2, to = 3)],
 )
 @ConstructedBy(value = AppDatabaseConstructor::class)
 abstract class WhereMyStuffDatabase : RoomDatabase() {

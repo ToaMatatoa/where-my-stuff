@@ -15,6 +15,9 @@ interface SubPlaceDao {
     @Query(value = "SELECT * FROM sub_place WHERE placeId = :placeId ORDER BY id")
     fun getAllSubPlaces(placeId: Int): Flow<List<SubPlaceEntity>>
 
+    @Query(value = "UPDATE sub_place SET description = :description WHERE id = :id")
+    suspend fun updateSubPlaceDescription(id: Int, description: String)
+
     /** Cascades to every piece of stuff kept in this sub-place. */
     @Query(value = "DELETE FROM sub_place WHERE id = :id")
     suspend fun deleteSubPlace(id: Int)
