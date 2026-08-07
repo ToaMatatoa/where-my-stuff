@@ -10,6 +10,7 @@ import com.matatoa.wheremystuff.domain.usecase.stuff.GetStuffForPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.subplace.AddSubPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.subplace.DeleteSubPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.subplace.GetAllSubPlacesUseCase
+import com.matatoa.wheremystuff.domain.usecase.subplace.UpdateSubPlaceDescriptionUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
@@ -21,6 +22,7 @@ val useCaseModule = module {
 
     factoryOf(constructor = ::GetAllSubPlacesUseCase)
     factoryOf(constructor = ::AddSubPlaceUseCase)
+    factoryOf(constructor = ::UpdateSubPlaceDescriptionUseCase)
     factoryOf(constructor = ::DeleteSubPlaceUseCase)
 
     factoryOf(constructor = ::GetStuffForPlaceUseCase)

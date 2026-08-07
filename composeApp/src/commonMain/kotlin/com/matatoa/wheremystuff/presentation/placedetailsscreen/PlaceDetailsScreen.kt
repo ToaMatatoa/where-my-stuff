@@ -1,5 +1,7 @@
 package com.matatoa.wheremystuff.presentation.placedetailsscreen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +18,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +40,9 @@ fun PlaceDetailsScreen(
     state: PlaceScreenState,
     onBackClick: () -> Unit,
     onSelectSubPlace: (Int?) -> Unit,
+    onAddSubPlaceDescriptionClick: () -> Unit,
+    onSubPlaceDescriptionChange: (String) -> Unit,
+    onSaveSubPlaceDescription: () -> Unit,
     onSaveNewSubPlace: (String) -> Unit,
     onDeleteSubPlace: (Int) -> Unit,
     onSaveNewStuff: (Int, String) -> Unit,
@@ -64,9 +71,14 @@ fun PlaceDetailsScreen(
         state.stuff.firstOrNull { it.id == stuffIdToDelete }?.name
     }
 
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { focusManager.clearFocus() })
+            },
     ) {
         TopBar(
             title = state.place?.name ?: EMPTY_STRING,
@@ -79,7 +91,16 @@ fun PlaceDetailsScreen(
 
         PlaceDetailsScreenBase(
             state = state,
-            onSelectSubPlace = onSelectSubPlace,
+            onSelectSubPlace = {
+                focusManager.clearFocus()
+                onSelectSubPlace(it)
+            },
+            onAddSubPlaceDescriptionClick = onAddSubPlaceDescriptionClick,
+            onSubPlaceDescriptionChange = onSubPlaceDescriptionChange,
+            onSaveSubPlaceDescription = {
+                focusManager.clearFocus()
+                onSaveSubPlaceDescription()
+            },
             onAddSubPlaceClick = { showAddSubPlaceDialog = true },
             onDeleteSubPlaceClick = { subPlaceIdToDelete = it },
             onAddStuffClick = { showAddStuffDialog = true },
@@ -143,6 +164,9 @@ fun PlaceDetailsScreen(
 private fun PlaceDetailsScreenBase(
     state: PlaceScreenState,
     onSelectSubPlace: (Int?) -> Unit,
+    onAddSubPlaceDescriptionClick: () -> Unit,
+    onSubPlaceDescriptionChange: (String) -> Unit,
+    onSaveSubPlaceDescription: () -> Unit,
     onAddSubPlaceClick: () -> Unit,
     onDeleteSubPlaceClick: (Int) -> Unit,
     onAddStuffClick: () -> Unit,
@@ -156,6 +180,9 @@ private fun PlaceDetailsScreenBase(
         else -> PlaceDetailsScreenCompletedState(
             state = state,
             onSelectSubPlace = onSelectSubPlace,
+            onAddSubPlaceDescriptionClick = onAddSubPlaceDescriptionClick,
+            onSubPlaceDescriptionChange = onSubPlaceDescriptionChange,
+            onSaveSubPlaceDescription = onSaveSubPlaceDescription,
             onAddSubPlaceClick = onAddSubPlaceClick,
             onDeleteSubPlaceClick = onDeleteSubPlaceClick,
             onAddStuffClick = onAddStuffClick,
@@ -206,6 +233,9 @@ private fun PlaceDetailsScreenEmptyState(
 private fun PlaceDetailsScreenCompletedState(
     state: PlaceScreenState,
     onSelectSubPlace: (Int?) -> Unit,
+    onAddSubPlaceDescriptionClick: () -> Unit,
+    onSubPlaceDescriptionChange: (String) -> Unit,
+    onSaveSubPlaceDescription: () -> Unit,
     onAddSubPlaceClick: () -> Unit,
     onDeleteSubPlaceClick: (Int) -> Unit,
     onAddStuffClick: () -> Unit,
@@ -228,6 +258,19 @@ private fun PlaceDetailsScreenCompletedState(
             onDeleteSubPlace = onDeleteSubPlaceClick,
             onAddSubPlaceClick = onAddSubPlaceClick,
         )
+
+        AnimatedVisibility(
+            visible = !isAllSelected
+        ) {
+            PlaceDetailsSubPlaceDescription(
+                description = state.subPlaceDescription,
+                isShown = state.isSubPlaceDescriptionShown,
+                isChanged = state.isSubPlaceDescriptionChanged,
+                onAddClick = onAddSubPlaceDescriptionClick,
+                onDescriptionChange = onSubPlaceDescriptionChange,
+                onSaveClick = onSaveSubPlaceDescription,
+            )
+        }
 
         if (state.subPlaces.isEmpty()) {
             PlaceDetailsNoSubPlacesState()
@@ -278,18 +321,27 @@ private fun PlaceDetailsScreenPreview() {
                 ),
                 subPlaces = listOf(
                     SubPlaceData(id = 1, placeId = 1, name = "1st room"),
-                    SubPlaceData(id = 2, placeId = 1, name = "Kitchen"),
+                    SubPlaceData(
+                        id = 2,
+                        placeId = 1,
+                        name = "Kitchen",
+                        description = "Cupboard above the fridge"
+                    ),
                     SubPlaceData(id = 3, placeId = 1, name = "Toilet"),
                     SubPlaceData(id = 4, placeId = 1, name = "Balcony"),
                 ),
+                selectedSubPlaceId = 2,
                 stuff = listOf(
-                    StuffData(id = 1, subPlaceId = 1, name = "Winter tyres"),
                     StuffData(id = 2, subPlaceId = 2, name = "Coffee grinder"),
-                    StuffData(id = 3, subPlaceId = 4, name = "Ski boots"),
                 ),
+                subPlaceDescription = "Cupboard above the fridge",
+                isSubPlaceDescriptionShown = true,
             ),
             onBackClick = {},
             onSelectSubPlace = {},
+            onAddSubPlaceDescriptionClick = {},
+            onSubPlaceDescriptionChange = {},
+            onSaveSubPlaceDescription = {},
             onSaveNewSubPlace = {},
             onDeleteSubPlace = {},
             onSaveNewStuff = { _, _ -> },

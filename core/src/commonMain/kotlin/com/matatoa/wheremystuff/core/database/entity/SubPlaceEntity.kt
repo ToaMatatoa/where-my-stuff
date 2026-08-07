@@ -1,5 +1,6 @@
 package com.matatoa.wheremystuff.core.database.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -23,4 +24,6 @@ data class SubPlaceEntity(
     val id: Int = 0,
     val placeId: Int,
     val name: String,
+    @ColumnInfo(defaultValue = "''")
+    val description: String = "",
 )

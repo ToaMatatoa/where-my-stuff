@@ -24,14 +24,16 @@ fun SubPlaceEntity.toSubPlaceData(): SubPlaceData =
     SubPlaceData(
         id = id,
         placeId = placeId,
-        name = name
+        name = name,
+        description = description
     )
 
 /** Leaves the id at its default so Room generates one on insert. */
 fun SubPlaceData.toSubPlaceEntity(): SubPlaceEntity =
     SubPlaceEntity(
         placeId = placeId,
-        name = name
+        name = name,
+        description = description
     )
 
 fun StuffEntity.toStuffData(): StuffData =

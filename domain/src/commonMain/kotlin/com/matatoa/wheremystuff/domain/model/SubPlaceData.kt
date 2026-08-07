@@ -4,4 +4,5 @@ data class SubPlaceData(
     val id: Int = 0,
     val placeId: Int,
     val name: String,
+    val description: String = "",
 )

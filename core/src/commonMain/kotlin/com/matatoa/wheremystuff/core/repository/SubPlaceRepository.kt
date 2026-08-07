@@ -10,6 +10,7 @@ interface SubPlaceRepository {
 
     /** @return the id Room generated for the new sub-place. */
     suspend fun addSubPlace(subPlace: SubPlaceEntity): Long
+    suspend fun updateSubPlaceDescription(id: Int, description: String)
     suspend fun deleteSubPlace(id: Int)
 }
 
@@ -22,6 +23,9 @@ class SubPlaceRepositoryImpl(
 
     override suspend fun addSubPlace(subPlace: SubPlaceEntity): Long =
         mutableSubPlaceDataSource.addSubPlace(subPlace = subPlace)
+
+    override suspend fun updateSubPlaceDescription(id: Int, description: String) =
+        mutableSubPlaceDataSource.updateSubPlaceDescription(id = id, description = description)
 
     override suspend fun deleteSubPlace(id: Int) =
         mutableSubPlaceDataSource.deleteSubPlace(id = id)
