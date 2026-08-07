@@ -23,6 +23,12 @@ fun PlaceDetailsScreenRoot(
         onSelectSubPlace = {
             viewModel.selectSubPlace(id = it)
         },
+        onSubPlaceDescriptionChange = {
+            viewModel.changeSubPlaceDescription(description = it)
+        },
+        onSaveSubPlaceDescription = {
+            viewModel.saveSubPlaceDescription()
+        },
         onSaveNewSubPlace = {
             viewModel.addSubPlace(name = it)
         },
