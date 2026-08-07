@@ -3,6 +3,7 @@ package com.matatoa.wheremystuff.presentation.placedetailsscreen
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.matatoa.wheremystuff.EMPTY_STRING
 import com.matatoa.wheremystuff.STOP_TIME_OUT_MILLIS
 import com.matatoa.wheremystuff.domain.model.PlaceData
 import com.matatoa.wheremystuff.domain.model.StuffData
@@ -14,6 +15,7 @@ import com.matatoa.wheremystuff.domain.usecase.stuff.GetStuffForPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.subplace.AddSubPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.subplace.DeleteSubPlaceUseCase
 import com.matatoa.wheremystuff.domain.usecase.subplace.GetAllSubPlacesUseCase
+import com.matatoa.wheremystuff.domain.usecase.subplace.UpdateSubPlaceDescriptionUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,11 +29,14 @@ class PlaceDetailsScreenViewModel(
     getAllSubPlacesUseCase: GetAllSubPlacesUseCase,
     getStuffForPlaceUseCase: GetStuffForPlaceUseCase,
     private val addSubPlaceUseCase: AddSubPlaceUseCase,
+    private val updateSubPlaceDescriptionUseCase: UpdateSubPlaceDescriptionUseCase,
     private val deleteSubPlaceUseCase: DeleteSubPlaceUseCase,
     private val addStuffUseCase: AddStuffUseCase,
     private val deleteStuffUseCase: DeleteStuffUseCase
 ) : ViewModel() {
     private val selectedSubPlaceId: MutableStateFlow<Int?> = MutableStateFlow(value = null)
+
+    private val subPlaceDescriptionDraft: MutableStateFlow<String?> = MutableStateFlow(value = null)
 
     val state: StateFlow<PlaceScreenState> =
         combine(
@@ -39,7 +44,11 @@ class PlaceDetailsScreenViewModel(
             getAllSubPlacesUseCase.invoke(placeId = placeId),
             getStuffForPlaceUseCase.invoke(placeId = placeId),
             selectedSubPlaceId,
-        ) { place, subPlaces, allStuff, selectedId ->
+            subPlaceDescriptionDraft,
+        ) { place, subPlaces, allStuff, selectedId, descriptionDraft ->
+            val savedDescription =
+                subPlaces.firstOrNull { it.id == selectedId }?.description.orEmpty()
+
             PlaceScreenState(
                 isLoading = false,
                 place = place,
@@ -49,6 +58,9 @@ class PlaceDetailsScreenViewModel(
                     null -> allStuff
                     else -> allStuff.filter { it.subPlaceId == selectedId }
                 },
+                subPlaceDescription = descriptionDraft ?: savedDescription,
+                isSubPlaceDescriptionChanged = descriptionDraft != null &&
+                        descriptionDraft.trim() != savedDescription,
             )
         }.stateIn(
             scope = viewModelScope,
@@ -57,7 +69,22 @@ class PlaceDetailsScreenViewModel(
         )
 
     fun selectSubPlace(id: Int?) {
+        if (selectedSubPlaceId.value == id) return
+
+        subPlaceDescriptionDraft.value = null
         selectedSubPlaceId.value = id
+    }
+
+    fun changeSubPlaceDescription(description: String) {
+        subPlaceDescriptionDraft.value = description
+    }
+
+    fun saveSubPlaceDescription() = viewModelScope.launch {
+        val subPlaceId = selectedSubPlaceId.value ?: return@launch
+        val description = subPlaceDescriptionDraft.value?.trim() ?: return@launch
+
+        subPlaceDescriptionDraft.value = description
+        updateSubPlaceDescriptionUseCase.invoke(id = subPlaceId, description = description)
     }
 
     fun addSubPlace(name: String) = viewModelScope.launch {
@@ -68,14 +95,11 @@ class PlaceDetailsScreenViewModel(
             )
         )
 
-        // Land the user in the sub-place they just created rather than leaving them on "All",
-        // where there is nothing to add stuff to.
-        selectedSubPlaceId.value = newSubPlaceId
+        selectSubPlace(id = newSubPlaceId)
     }
 
     fun deleteSubPlace(id: Int) = viewModelScope.launch {
-        // Fall back to "All" first so the screen never points at a sub-place that is gone.
-        if (selectedSubPlaceId.value == id) selectedSubPlaceId.value = null
+        if (selectedSubPlaceId.value == id) selectSubPlace(id = null)
 
         deleteSubPlaceUseCase.invoke(id = id)
     }
@@ -101,6 +125,7 @@ data class PlaceScreenState(
     val subPlaces: List<SubPlaceData> = emptyList(),
     /** `null` while the predefined "All" chip is selected. */
     val selectedSubPlaceId: Int? = null,
-    /** Stuff of [selectedSubPlaceId], or of every sub-place when "All" is selected. */
     val stuff: List<StuffData> = emptyList(),
+    val subPlaceDescription: String = EMPTY_STRING,
+    val isSubPlaceDescriptionChanged: Boolean = false,
 )
