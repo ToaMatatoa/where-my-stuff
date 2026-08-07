@@ -32,6 +32,7 @@
     <string name="place_details_delete_sub_place_dialog_title">Do you want to delete this sub-place?</string>
     <!-- %1$s — the sub-place name -->
     <string name="place_details_delete_sub_place_dialog_text">“%1$s” and everything kept in it will be deleted permanently.</string>
+    <string name="place_details_add_sub_place_description">Add description</string>
     <string name="place_details_sub_place_description_label">Sub-place description</string>
     <string name="place_details_save_sub_place_description">Save description</string>
 

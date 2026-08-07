@@ -23,6 +23,9 @@ fun PlaceDetailsScreenRoot(
         onSelectSubPlace = {
             viewModel.selectSubPlace(id = it)
         },
+        onAddSubPlaceDescriptionClick = {
+            viewModel.startAddingSubPlaceDescription()
+        },
         onSubPlaceDescriptionChange = {
             viewModel.changeSubPlaceDescription(description = it)
         },

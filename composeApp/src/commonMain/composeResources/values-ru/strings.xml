@@ -69,6 +69,8 @@
       Gender-safe as written: «всё» carries the agreement, so no leading noun is needed here.
     -->
     <string name="place_details_delete_sub_place_dialog_text">«%1$s» и всё, что там хранится, будет удалено навсегда</string>
+    <!-- "Add description" (shown instead of the field until a description is stored) -->
+    <string name="place_details_add_sub_place_description">Добавить описание</string>
     <!-- "Sub-place description" (text field label) -->
     <string name="place_details_sub_place_description_label">Описание местоположения</string>
     <!-- "Save description" (the save-button accessibility label) -->

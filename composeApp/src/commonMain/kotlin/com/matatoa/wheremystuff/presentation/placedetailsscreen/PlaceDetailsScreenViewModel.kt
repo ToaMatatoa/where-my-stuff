@@ -36,7 +36,8 @@ class PlaceDetailsScreenViewModel(
 ) : ViewModel() {
     private val selectedSubPlaceId: MutableStateFlow<Int?> = MutableStateFlow(value = null)
 
-    private val subPlaceDescriptionDraft: MutableStateFlow<String?> = MutableStateFlow(value = null)
+    private val subPlaceDescriptionEdit: MutableStateFlow<SubPlaceDescriptionEdit> =
+        MutableStateFlow(value = SubPlaceDescriptionEdit())
 
     val state: StateFlow<PlaceScreenState> =
         combine(
@@ -44,10 +45,11 @@ class PlaceDetailsScreenViewModel(
             getAllSubPlacesUseCase.invoke(placeId = placeId),
             getStuffForPlaceUseCase.invoke(placeId = placeId),
             selectedSubPlaceId,
-            subPlaceDescriptionDraft,
-        ) { place, subPlaces, allStuff, selectedId, descriptionDraft ->
+            subPlaceDescriptionEdit,
+        ) { place, subPlaces, allStuff, selectedId, descriptionEdit ->
             val savedDescription =
                 subPlaces.firstOrNull { it.id == selectedId }?.description.orEmpty()
+            val draft = descriptionEdit.draft
 
             PlaceScreenState(
                 isLoading = false,
@@ -58,9 +60,10 @@ class PlaceDetailsScreenViewModel(
                     null -> allStuff
                     else -> allStuff.filter { it.subPlaceId == selectedId }
                 },
-                subPlaceDescription = descriptionDraft ?: savedDescription,
-                isSubPlaceDescriptionChanged = descriptionDraft != null &&
-                        descriptionDraft.trim() != savedDescription,
+                subPlaceDescription = draft ?: savedDescription,
+                isSubPlaceDescriptionShown = savedDescription.isNotEmpty() ||
+                        descriptionEdit.isAdding,
+                isSubPlaceDescriptionChanged = draft != null && draft.trim() != savedDescription,
             )
         }.stateIn(
             scope = viewModelScope,
@@ -71,19 +74,26 @@ class PlaceDetailsScreenViewModel(
     fun selectSubPlace(id: Int?) {
         if (selectedSubPlaceId.value == id) return
 
-        subPlaceDescriptionDraft.value = null
+        subPlaceDescriptionEdit.value = SubPlaceDescriptionEdit()
         selectedSubPlaceId.value = id
     }
 
+    fun startAddingSubPlaceDescription() {
+        subPlaceDescriptionEdit.value = subPlaceDescriptionEdit.value.copy(isAdding = true)
+    }
+
     fun changeSubPlaceDescription(description: String) {
-        subPlaceDescriptionDraft.value = description
+        subPlaceDescriptionEdit.value = subPlaceDescriptionEdit.value.copy(draft = description)
     }
 
     fun saveSubPlaceDescription() = viewModelScope.launch {
         val subPlaceId = selectedSubPlaceId.value ?: return@launch
-        val description = subPlaceDescriptionDraft.value?.trim() ?: return@launch
+        val description = subPlaceDescriptionEdit.value.draft?.trim() ?: return@launch
 
-        subPlaceDescriptionDraft.value = description
+        // Neither half of the edit is cleared here, because both would snap back for as long
+        // as the write takes: the draft to the previous description, and the "adding" session
+        // to the "Add description" button. The stored value catching up settles both.
+        subPlaceDescriptionEdit.value = subPlaceDescriptionEdit.value.copy(draft = description)
         updateSubPlaceDescriptionUseCase.invoke(id = subPlaceId, description = description)
     }
 
@@ -127,5 +137,11 @@ data class PlaceScreenState(
     val selectedSubPlaceId: Int? = null,
     val stuff: List<StuffData> = emptyList(),
     val subPlaceDescription: String = EMPTY_STRING,
+    val isSubPlaceDescriptionShown: Boolean = false,
     val isSubPlaceDescriptionChanged: Boolean = false,
+)
+
+private data class SubPlaceDescriptionEdit(
+    val draft: String? = null,
+    val isAdding: Boolean = false,
 )

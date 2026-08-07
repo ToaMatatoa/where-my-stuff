@@ -40,6 +40,7 @@ fun PlaceDetailsScreen(
     state: PlaceScreenState,
     onBackClick: () -> Unit,
     onSelectSubPlace: (Int?) -> Unit,
+    onAddSubPlaceDescriptionClick: () -> Unit,
     onSubPlaceDescriptionChange: (String) -> Unit,
     onSaveSubPlaceDescription: () -> Unit,
     onSaveNewSubPlace: (String) -> Unit,
@@ -94,6 +95,7 @@ fun PlaceDetailsScreen(
                 focusManager.clearFocus()
                 onSelectSubPlace(it)
             },
+            onAddSubPlaceDescriptionClick = onAddSubPlaceDescriptionClick,
             onSubPlaceDescriptionChange = onSubPlaceDescriptionChange,
             onSaveSubPlaceDescription = {
                 focusManager.clearFocus()
@@ -162,6 +164,7 @@ fun PlaceDetailsScreen(
 private fun PlaceDetailsScreenBase(
     state: PlaceScreenState,
     onSelectSubPlace: (Int?) -> Unit,
+    onAddSubPlaceDescriptionClick: () -> Unit,
     onSubPlaceDescriptionChange: (String) -> Unit,
     onSaveSubPlaceDescription: () -> Unit,
     onAddSubPlaceClick: () -> Unit,
@@ -177,6 +180,7 @@ private fun PlaceDetailsScreenBase(
         else -> PlaceDetailsScreenCompletedState(
             state = state,
             onSelectSubPlace = onSelectSubPlace,
+            onAddSubPlaceDescriptionClick = onAddSubPlaceDescriptionClick,
             onSubPlaceDescriptionChange = onSubPlaceDescriptionChange,
             onSaveSubPlaceDescription = onSaveSubPlaceDescription,
             onAddSubPlaceClick = onAddSubPlaceClick,
@@ -229,6 +233,7 @@ private fun PlaceDetailsScreenEmptyState(
 private fun PlaceDetailsScreenCompletedState(
     state: PlaceScreenState,
     onSelectSubPlace: (Int?) -> Unit,
+    onAddSubPlaceDescriptionClick: () -> Unit,
     onSubPlaceDescriptionChange: (String) -> Unit,
     onSaveSubPlaceDescription: () -> Unit,
     onAddSubPlaceClick: () -> Unit,
@@ -259,7 +264,9 @@ private fun PlaceDetailsScreenCompletedState(
         ) {
             PlaceDetailsSubPlaceDescription(
                 description = state.subPlaceDescription,
+                isShown = state.isSubPlaceDescriptionShown,
                 isChanged = state.isSubPlaceDescriptionChanged,
+                onAddClick = onAddSubPlaceDescriptionClick,
                 onDescriptionChange = onSubPlaceDescriptionChange,
                 onSaveClick = onSaveSubPlaceDescription,
             )
@@ -328,9 +335,11 @@ private fun PlaceDetailsScreenPreview() {
                     StuffData(id = 2, subPlaceId = 2, name = "Coffee grinder"),
                 ),
                 subPlaceDescription = "Cupboard above the fridge",
+                isSubPlaceDescriptionShown = true,
             ),
             onBackClick = {},
             onSelectSubPlace = {},
+            onAddSubPlaceDescriptionClick = {},
             onSubPlaceDescriptionChange = {},
             onSaveSubPlaceDescription = {},
             onSaveNewSubPlace = {},
