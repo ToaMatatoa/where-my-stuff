@@ -17,6 +17,7 @@ val viewModelModule = module {
             getAllSubPlacesUseCase = get(),
             getStuffForPlaceUseCase = get(),
             addSubPlaceUseCase = get(),
+            updateSubPlaceDescriptionUseCase = get(),
             deleteSubPlaceUseCase = get(),
             addStuffUseCase = get(),
             deleteStuffUseCase = get()
