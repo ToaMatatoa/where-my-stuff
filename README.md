@@ -1,42 +1,82 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+# Where My Stuff
 
-* [/composeApp](./composeApp/src) is the application module and the Compose Multiplatform entry point for
-  every target. It holds the screens/UI and wires the other modules together. It contains several source sets:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that's common for all targets.
-  - Platform folders hold Kotlin code compiled for only the platform indicated by the folder name.
-    For example, [iosMain](./composeApp/src/iosMain/kotlin) is where you'd put iOS-specific calls (e.g.
-    Apple's CoreCrypto), [androidMain](./composeApp/src/androidMain/kotlin) holds the Android `MainActivity`
-    and manifest, and [desktopMain](./composeApp/src/desktopMain/kotlin) holds the Desktop (JVM) entry point.
+A Kotlin Multiplatform home-inventory app for people who own more boxes than memory. Register the
+places in your home, break them into sub-places, and record what lives in each one — then find any
+item again without opening every drawer.
 
-The shared code is split into layered multiplatform library modules:
+Runs from a single shared codebase on **Android, iOS and Desktop (JVM)**.
 
-* [/designSystem](./designSystem/src) — colors, typography/fonts, and simple reusable UI elements
-  (`AppTheme`, design tokens). No module dependencies.
-* [/core](./core/src) — data layer: Room, the local database, data models, and repositories
-  (interface + implementation). No module dependencies.
-* [/domain](./domain/src) — business logic: use cases that call into `:core`. Depends on `:core`.
+## Features
 
-Dependency direction: `composeApp → designSystem, domain` and `domain → core`.
+- **Three-level hierarchy** — Place → Sub-place → Stuff (e.g. *Garage → Blue shelf → Winter tyres*)
+- Add, rename and delete at every level, with confirmation dialogs for destructive actions
+- Per-sub-place descriptions and comments
+- Fully offline — everything is stored locally, no account, no backend
+- Native splash screen on each platform
 
-* [/iosApp](./iosApp/iosApp) contains the iOS application entry point. Even though the UI is shared with
-  Compose Multiplatform, this thin SwiftUI host is required, and it's where you'd add any native SwiftUI code.
+## Architecture
 
-### Running the apps
+Layered multiplatform modules with a strictly enforced dependency direction:
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
+```
+composeApp  ──►  designSystem
+     │
+     └────────►  domain  ──►  core
+```
 
-- Android app: `./gradlew :composeApp:assembleDebug`
-- Desktop app: `./gradlew :composeApp:run`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+| Module | Responsibility | Depends on |
+|---|---|---|
+| `composeApp` | Compose Multiplatform UI, ViewModels, navigation; entry point for every target | `designSystem`, `domain` |
+| `domain` | Business logic — use cases and domain models | `core` |
+| `core` | Data layer — Room database, entities, data sources, repositories | — |
+| `designSystem` | Colors, typography, `AppTheme`, reusable UI elements | — |
 
-### Running tests
+The UI never touches the database directly: screens talk to ViewModels, ViewModels call use cases,
+use cases go through repository interfaces that `core` implements.
 
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
+## Tech stack
 
-- Android tests: `./gradlew :composeApp:testDebugUnitTest`
-- Desktop tests: `./gradlew :composeApp:desktopTest`
-- iOS tests: `./gradlew :composeApp:iosSimulatorArm64Test`
+| | |
+|---|---|
+| Language | Kotlin 2.4 |
+| UI | Compose Multiplatform, Material 3 |
+| Navigation | Navigation 3 (`org.jetbrains.androidx.navigation3`, the Compose Multiplatform port) |
+| DI | Koin |
+| Persistence | Room (KMP) with the bundled SQLite driver |
+| Async | Coroutines + Flow |
+| Serialization | kotlinx.serialization |
 
----
+### Platform-specific code
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+Most of the app is in `commonMain`. Where a platform genuinely differs, the split is done with
+`expect`/`actual` rather than by duplicating features — the database builder is the clearest example:
+
+```
+core/src/androidMain/…/AndroidDatabase.kt
+core/src/iosMain/…/IOSDatabase.kt
+core/src/jvmMain/…/DesktopDatabase.kt
+```
+
+`iosApp/` holds a thin SwiftUI host for the iOS entry point.
+
+## Running
+
+```bash
+./gradlew :composeApp:assembleDebug     # Android
+./gradlew :composeApp:run               # Desktop (JVM)
+```
+
+For iOS, open `iosApp/` in Xcode and run from there.
+
+## Tests
+
+```bash
+./gradlew :composeApp:testDebugUnitTest      # Android unit tests
+./gradlew :composeApp:desktopTest            # Desktop
+./gradlew :composeApp:iosSimulatorArm64Test  # iOS simulator
+./gradlew :core:jvmTest                      # data layer, incl. database migration test
+```
+
+## License
+
+Apache License 2.0 — see [LICENSE](./LICENSE).
