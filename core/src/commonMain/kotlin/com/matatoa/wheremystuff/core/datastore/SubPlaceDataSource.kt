@@ -9,7 +9,7 @@ interface SubPlaceDataStore {
 }
 
 class SubPlaceDataStoreImpl(
-    val subPlaceDao: SubPlaceDao
+    val subPlaceDao: SubPlaceDao,
 ) : SubPlaceDataStore {
     override fun getAllSubPlaces(placeId: Int): Flow<List<SubPlaceEntity>> =
         subPlaceDao.getAllSubPlaces(placeId = placeId)

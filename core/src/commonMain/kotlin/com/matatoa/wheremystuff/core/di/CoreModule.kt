@@ -40,7 +40,7 @@ val provideDataSourceModule = module {
     }
     single<MutablePlaceDataSource> {
         MutablePlaceDataSourceImpl(
-            placeDao = get()
+            placeDao = get(),
         )
     }
     single<SubPlaceDataStore> {
@@ -48,7 +48,7 @@ val provideDataSourceModule = module {
     }
     single<MutableSubPlaceDataSource> {
         MutableSubPlaceDataSourceImpl(
-            subPlaceDao = get()
+            subPlaceDao = get(),
         )
     }
     single<StuffDataStore> {
@@ -56,7 +56,7 @@ val provideDataSourceModule = module {
     }
     single<MutableStuffDataSource> {
         MutableStuffDataSourceImpl(
-            stuffDao = get()
+            stuffDao = get(),
         )
     }
 }
@@ -79,5 +79,5 @@ val provideRepositoryModule = module {
 val coreModules = listOf(
     provideDatabaseModule,
     provideDataSourceModule,
-    provideRepositoryModule
+    provideRepositoryModule,
 )

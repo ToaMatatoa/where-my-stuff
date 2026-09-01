@@ -10,7 +10,7 @@ interface PlaceDataStore {
 }
 
 class PlaceDataStoreImpl(
-    val placeDao: PlaceDao
+    val placeDao: PlaceDao,
 ) : PlaceDataStore {
     override fun getAllPlaces(): Flow<List<PlaceEntity>> =
         placeDao.getAllPlaces()

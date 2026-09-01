@@ -9,7 +9,7 @@ interface MutableStuffDataSource {
 }
 
 class MutableStuffDataSourceImpl(
-    val stuffDao: StuffDao
+    val stuffDao: StuffDao,
 ) : MutableStuffDataSource {
     override suspend fun addStuff(stuff: StuffEntity) =
         stuffDao.addStuff(stuff = stuff)
