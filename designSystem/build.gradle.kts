@@ -34,7 +34,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.components.resources)
 
-            //icons
+            // icons
             implementation(libs.icons)
         }
 

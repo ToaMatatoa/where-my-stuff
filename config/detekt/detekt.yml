@@ -54,3 +54,8 @@ style:
   # ktlint: no-wildcard-imports
   WildcardImport:
     active: false
+  # @Preview functions are private and only ever called by the IDE's preview
+  # tooling, so detekt sees them as dead code.
+  UnusedPrivateFunction:
+    active: true
+    ignoreAnnotated: ['Preview']

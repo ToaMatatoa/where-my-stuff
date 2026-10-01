@@ -51,23 +51,24 @@ fun TopBar(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(space = 12.dp)
+                horizontalArrangement = Arrangement.spacedBy(space = 12.dp),
             ) {
-                if (titleIcon != null)
+                if (titleIcon != null) {
                     Icon(
                         imageVector = titleIcon,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
-                            .size(size = 32.dp)
+                            .size(size = 32.dp),
                     )
+                }
 
                 Text(
                     text = title,
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
         },
