@@ -263,6 +263,7 @@ private fun PlaceDetailsScreenCompletedState(
             visible = !isAllSelected
         ) {
             PlaceDetailsSubPlaceDescription(
+                subPlaceId = state.selectedSubPlaceId,
                 description = state.subPlaceDescription,
                 isShown = state.isSubPlaceDescriptionShown,
                 isChanged = state.isSubPlaceDescriptionChanged,

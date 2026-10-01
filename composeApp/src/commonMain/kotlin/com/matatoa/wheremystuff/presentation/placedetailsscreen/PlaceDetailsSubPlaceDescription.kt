@@ -16,6 +16,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.maxLength
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -23,7 +28,11 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +46,7 @@ import compose.icons.TablerIcons
 import compose.icons.tablericons.DeviceFloppy
 import compose.icons.tablericons.Plus
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.drop
 import org.jetbrains.compose.resources.stringResource
 import wheremystuff.composeapp.generated.resources.Res
 import wheremystuff.composeapp.generated.resources.place_details_add_sub_place_description
@@ -53,6 +63,7 @@ import wheremystuff.composeapp.generated.resources.place_details_sub_place_descr
  */
 @Composable
 fun PlaceDetailsSubPlaceDescription(
+    subPlaceId: Int?,
     description: String,
     isShown: Boolean,
     isChanged: Boolean,
@@ -62,13 +73,15 @@ fun PlaceDetailsSubPlaceDescription(
     modifier: Modifier = Modifier,
 ) {
     if (isShown) {
-        SubPlaceDescriptionField(
-            description = description,
-            isChanged = isChanged,
-            onDescriptionChange = onDescriptionChange,
-            onSaveClick = onSaveClick,
-            modifier = modifier,
-        )
+        key(subPlaceId) {
+            SubPlaceDescriptionField(
+                description = description,
+                isChanged = isChanged,
+                onDescriptionChange = onDescriptionChange,
+                onSaveClick = onSaveClick,
+                modifier = modifier,
+            )
+        }
     } else {
         AddDescriptionButton(
             onClick = onAddClick,
@@ -137,6 +150,18 @@ private fun SubPlaceDescriptionField(
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // The field owns its text and cursor, and only reports edits upwards: the state coming
+    // back from the view model lags behind typing. With the value/onValueChange overload the
+    // cursor is reset to the start on iOS after every keystroke, so letters typed after
+    // the first one land in front of it ("Home" shows up as "omeH").
+    val descriptionState = rememberTextFieldState(initialText = description)
+    val currentOnDescriptionChange by rememberUpdatedState(newValue = onDescriptionChange)
+    LaunchedEffect(descriptionState) {
+        snapshotFlow { descriptionState.text.toString() }
+            .drop(count = 1)
+            .collect { currentOnDescriptionChange(it) }
+    }
+
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
         if (description.isEmpty()) {
@@ -152,11 +177,9 @@ private fun SubPlaceDescriptionField(
             .padding(horizontal = 24.dp, vertical = 4.dp),
     ) {
         OutlinedTextField(
-            value = description,
-            onValueChange = {
-                if (it.length <= SUB_PLACE_DESCRIPTION_LENGTH) onDescriptionChange(it)
-            },
-            maxLines = 2,
+            state = descriptionState,
+            inputTransformation = InputTransformation.maxLength(maxLength = SUB_PLACE_DESCRIPTION_LENGTH),
+            lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 2),
             shape = RoundedCornerShape(size = 24.dp),
             textStyle = MaterialTheme.typography.bodyLarge,
             label = {
@@ -170,7 +193,7 @@ private fun SubPlaceDescriptionField(
             supportingText = if (isChanged) {
                 {
                     Text(
-                        text = "${description.length}/$SUB_PLACE_DESCRIPTION_LENGTH",
+                        text = "${descriptionState.text.length}/$SUB_PLACE_DESCRIPTION_LENGTH",
                         textAlign = TextAlign.End,
                         modifier = Modifier
                             .fillMaxWidth(),
@@ -197,7 +220,12 @@ private fun SubPlaceDescriptionField(
 
         SaveDescriptionButton(
             visible = isChanged,
-            onClick = onSaveClick,
+            onClick = {
+                descriptionState.setTextAndPlaceCursorAtEnd(
+                    text = descriptionState.text.trim().toString(),
+                )
+                onSaveClick()
+            },
         )
     }
 }
