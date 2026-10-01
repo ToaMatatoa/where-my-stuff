@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetAllSubPlacesUseCase(
-    val subPlaceRepository: SubPlaceRepository
+    val subPlaceRepository: SubPlaceRepository,
 ) {
     operator fun invoke(placeId: Int): Flow<List<SubPlaceData>> =
         subPlaceRepository.getAllSubPlaces(placeId = placeId)

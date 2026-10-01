@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetStuffForPlaceUseCase(
-    val stuffRepository: StuffRepository
+    val stuffRepository: StuffRepository,
 ) {
     operator fun invoke(placeId: Int): Flow<List<StuffData>> =
         stuffRepository.getStuffForPlace(placeId = placeId)

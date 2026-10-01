@@ -7,10 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetAllPlacesUseCase(
-    val placeRepository: PlaceRepository
+    val placeRepository: PlaceRepository,
 ) {
     operator fun invoke(): Flow<List<PlaceData>> =
         placeRepository.getAllPlaces()
             .map { places -> places.map { place -> place.toPlaceData() } }
-
 }
