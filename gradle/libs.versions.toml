@@ -3,7 +3,7 @@ android-compileSdk = "37"
 android-minSdk = "29"
 android-targetSdk = "37"
 
-agp = "9.3.3"
+agp = "9.4.1"
 kotlin = "2.4.20"
 composeMultiplatform = "1.12.1"
 material3 = "1.12.0-alpha03"
