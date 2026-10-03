@@ -40,9 +40,7 @@ fun PlaceDetailsScreen(
     state: PlaceScreenState,
     onBackClick: () -> Unit,
     onSelectSubPlace: (Int?) -> Unit,
-    onAddSubPlaceDescriptionClick: () -> Unit,
-    onSubPlaceDescriptionChange: (String) -> Unit,
-    onSaveSubPlaceDescription: () -> Unit,
+    descriptionActions: SubPlaceDescriptionActions,
     onSaveNewSubPlace: (String) -> Unit,
     onDeleteSubPlace: (Int) -> Unit,
     onSaveNewStuff: (Int, String) -> Unit,
@@ -55,7 +53,7 @@ fun PlaceDetailsScreen(
     val isSubPlaceNameTaken = remember(subPlaceName, state.subPlaces) {
         val trimmedName = subPlaceName.trim()
         trimmedName.isNotEmpty() &&
-                state.subPlaces.any { it.name.equals(other = trimmedName, ignoreCase = true) }
+            state.subPlaces.any { it.name.equals(other = trimmedName, ignoreCase = true) }
     }
 
     var subPlaceIdToDelete by rememberSaveable { mutableStateOf<Int?>(value = null) }
@@ -95,16 +93,16 @@ fun PlaceDetailsScreen(
                 focusManager.clearFocus()
                 onSelectSubPlace(it)
             },
-            onAddSubPlaceDescriptionClick = onAddSubPlaceDescriptionClick,
-            onSubPlaceDescriptionChange = onSubPlaceDescriptionChange,
-            onSaveSubPlaceDescription = {
-                focusManager.clearFocus()
-                onSaveSubPlaceDescription()
-            },
+            descriptionActions = descriptionActions.copy(
+                onSave = {
+                    focusManager.clearFocus()
+                    descriptionActions.onSave()
+                },
+            ),
             onAddSubPlaceClick = { showAddSubPlaceDialog = true },
             onDeleteSubPlaceClick = { subPlaceIdToDelete = it },
             onAddStuffClick = { showAddStuffDialog = true },
-            onDeleteStuffClick = { stuffIdToDelete = it }
+            onDeleteStuffClick = { stuffIdToDelete = it },
         )
     }
 
@@ -121,7 +119,7 @@ fun PlaceDetailsScreen(
         onDismiss = {
             showAddSubPlaceDialog = false
             subPlaceName = EMPTY_STRING
-        }
+        },
     )
 
     ShowDeleteSubPlaceDialog(
@@ -130,7 +128,7 @@ fun PlaceDetailsScreen(
             subPlaceIdToDelete?.let(block = onDeleteSubPlace)
             subPlaceIdToDelete = null
         },
-        onDismiss = { subPlaceIdToDelete = null }
+        onDismiss = { subPlaceIdToDelete = null },
     )
 
     ShowAddStuffDialog(
@@ -147,7 +145,7 @@ fun PlaceDetailsScreen(
         onDismiss = {
             showAddStuffDialog = false
             stuffName = EMPTY_STRING
-        }
+        },
     )
 
     ShowDeleteStuffDialog(
@@ -156,7 +154,7 @@ fun PlaceDetailsScreen(
             stuffIdToDelete?.let { onDeleteStuff(it) }
             stuffIdToDelete = null
         },
-        onDismiss = { stuffIdToDelete = null }
+        onDismiss = { stuffIdToDelete = null },
     )
 }
 
@@ -164,13 +162,11 @@ fun PlaceDetailsScreen(
 private fun PlaceDetailsScreenBase(
     state: PlaceScreenState,
     onSelectSubPlace: (Int?) -> Unit,
-    onAddSubPlaceDescriptionClick: () -> Unit,
-    onSubPlaceDescriptionChange: (String) -> Unit,
-    onSaveSubPlaceDescription: () -> Unit,
+    descriptionActions: SubPlaceDescriptionActions,
     onAddSubPlaceClick: () -> Unit,
     onDeleteSubPlaceClick: (Int) -> Unit,
     onAddStuffClick: () -> Unit,
-    onDeleteStuffClick: (Int) -> Unit
+    onDeleteStuffClick: (Int) -> Unit,
 ) {
     when {
         state.isLoading -> PlaceDetailsScreenLoadingState()
@@ -180,20 +176,18 @@ private fun PlaceDetailsScreenBase(
         else -> PlaceDetailsScreenCompletedState(
             state = state,
             onSelectSubPlace = onSelectSubPlace,
-            onAddSubPlaceDescriptionClick = onAddSubPlaceDescriptionClick,
-            onSubPlaceDescriptionChange = onSubPlaceDescriptionChange,
-            onSaveSubPlaceDescription = onSaveSubPlaceDescription,
+            descriptionActions = descriptionActions,
             onAddSubPlaceClick = onAddSubPlaceClick,
             onDeleteSubPlaceClick = onDeleteSubPlaceClick,
             onAddStuffClick = onAddStuffClick,
-            onDeleteStuffClick = onDeleteStuffClick
+            onDeleteStuffClick = onDeleteStuffClick,
         )
     }
 }
 
 @Composable
 private fun PlaceDetailsScreenLoadingState(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -211,7 +205,7 @@ private fun PlaceDetailsScreenLoadingState(
 
 @Composable
 private fun PlaceDetailsScreenEmptyState(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -233,14 +227,12 @@ private fun PlaceDetailsScreenEmptyState(
 private fun PlaceDetailsScreenCompletedState(
     state: PlaceScreenState,
     onSelectSubPlace: (Int?) -> Unit,
-    onAddSubPlaceDescriptionClick: () -> Unit,
-    onSubPlaceDescriptionChange: (String) -> Unit,
-    onSaveSubPlaceDescription: () -> Unit,
+    descriptionActions: SubPlaceDescriptionActions,
     onAddSubPlaceClick: () -> Unit,
     onDeleteSubPlaceClick: (Int) -> Unit,
     onAddStuffClick: () -> Unit,
     onDeleteStuffClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val subPlaceNameById = remember(state.subPlaces) {
         state.subPlaces.associate { it.id to it.name }
@@ -249,7 +241,7 @@ private fun PlaceDetailsScreenCompletedState(
 
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         PlaceDetailsSubPlacesRow(
             subPlaces = state.subPlaces,
@@ -260,15 +252,14 @@ private fun PlaceDetailsScreenCompletedState(
         )
 
         AnimatedVisibility(
-            visible = !isAllSelected
+            visible = !isAllSelected,
         ) {
             PlaceDetailsSubPlaceDescription(
+                subPlaceId = state.selectedSubPlaceId,
                 description = state.subPlaceDescription,
                 isShown = state.isSubPlaceDescriptionShown,
                 isChanged = state.isSubPlaceDescriptionChanged,
-                onAddClick = onAddSubPlaceDescriptionClick,
-                onDescriptionChange = onSubPlaceDescriptionChange,
-                onSaveClick = onSaveSubPlaceDescription,
+                actions = descriptionActions,
             )
         }
 
@@ -283,14 +274,14 @@ private fun PlaceDetailsScreenCompletedState(
             isAllSelected = isAllSelected,
             // Stuff always belongs to one sub-place, so "All" is a read-only overview.
             onAddStuffClick = if (isAllSelected) null else onAddStuffClick,
-            onDeleteStuffClick = onDeleteStuffClick
+            onDeleteStuffClick = onDeleteStuffClick,
         )
     }
 }
 
 @Composable
 private fun PlaceDetailsNoSubPlacesState(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -317,7 +308,7 @@ private fun PlaceDetailsScreenPreview() {
                 place = PlaceData(
                     id = 1,
                     name = "House",
-                    iconName = "House"
+                    iconName = "House",
                 ),
                 subPlaces = listOf(
                     SubPlaceData(id = 1, placeId = 1, name = "1st room"),
@@ -325,7 +316,7 @@ private fun PlaceDetailsScreenPreview() {
                         id = 2,
                         placeId = 1,
                         name = "Kitchen",
-                        description = "Cupboard above the fridge"
+                        description = "Cupboard above the fridge",
                     ),
                     SubPlaceData(id = 3, placeId = 1, name = "Toilet"),
                     SubPlaceData(id = 4, placeId = 1, name = "Balcony"),
@@ -339,13 +330,15 @@ private fun PlaceDetailsScreenPreview() {
             ),
             onBackClick = {},
             onSelectSubPlace = {},
-            onAddSubPlaceDescriptionClick = {},
-            onSubPlaceDescriptionChange = {},
-            onSaveSubPlaceDescription = {},
+            descriptionActions = SubPlaceDescriptionActions(
+                onAddClick = {},
+                onChange = {},
+                onSave = {},
+            ),
             onSaveNewSubPlace = {},
             onDeleteSubPlace = {},
             onSaveNewStuff = { _, _ -> },
-            onDeleteStuff = {}
+            onDeleteStuff = {},
         )
     }
 }

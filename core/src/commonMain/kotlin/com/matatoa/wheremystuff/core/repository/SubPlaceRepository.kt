@@ -16,7 +16,7 @@ interface SubPlaceRepository {
 
 class SubPlaceRepositoryImpl(
     val subPlaceDataSource: SubPlaceDataStore,
-    val mutableSubPlaceDataSource: MutableSubPlaceDataSource
+    val mutableSubPlaceDataSource: MutableSubPlaceDataSource,
 ) : SubPlaceRepository {
     override fun getAllSubPlaces(placeId: Int): Flow<List<SubPlaceEntity>> =
         subPlaceDataSource.getAllSubPlaces(placeId = placeId)

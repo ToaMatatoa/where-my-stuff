@@ -23,15 +23,17 @@ fun PlaceDetailsScreenRoot(
         onSelectSubPlace = {
             viewModel.selectSubPlace(id = it)
         },
-        onAddSubPlaceDescriptionClick = {
-            viewModel.startAddingSubPlaceDescription()
-        },
-        onSubPlaceDescriptionChange = {
-            viewModel.changeSubPlaceDescription(description = it)
-        },
-        onSaveSubPlaceDescription = {
-            viewModel.saveSubPlaceDescription()
-        },
+        descriptionActions = SubPlaceDescriptionActions(
+            onAddClick = {
+                viewModel.startAddingSubPlaceDescription()
+            },
+            onChange = {
+                viewModel.changeSubPlaceDescription(description = it)
+            },
+            onSave = {
+                viewModel.saveSubPlaceDescription()
+            },
+        ),
         onSaveNewSubPlace = {
             viewModel.addSubPlace(name = it)
         },
@@ -45,6 +47,6 @@ fun PlaceDetailsScreenRoot(
             viewModel.deleteStuff(id = it)
         },
         modifier = modifier
-            .background(color = MaterialTheme.colorScheme.background)
+            .background(color = MaterialTheme.colorScheme.background),
     )
 }

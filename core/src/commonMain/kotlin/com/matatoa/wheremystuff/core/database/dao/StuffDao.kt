@@ -25,7 +25,7 @@ interface StuffDao {
             INNER JOIN sub_place ON stuff.subPlaceId = sub_place.id
             WHERE sub_place.placeId = :placeId
             ORDER BY sub_place.id, stuff.id
-        """
+        """,
     )
     fun getStuffForPlace(placeId: Int): Flow<List<StuffEntity>>
 

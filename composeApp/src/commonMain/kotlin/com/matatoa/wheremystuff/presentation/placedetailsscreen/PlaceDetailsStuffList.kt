@@ -45,8 +45,11 @@ fun PlaceDetailsStuffList(
 ) {
     if (stuff.isEmpty()) {
         PlaceDetailsStuffEmptyState(
-            text = if (isAllSelected) stringResource(Res.string.place_details_no_stuff_at_all)
-            else stringResource(Res.string.place_details_no_stuff),
+            text = if (isAllSelected) {
+                stringResource(Res.string.place_details_no_stuff_at_all)
+            } else {
+                stringResource(Res.string.place_details_no_stuff)
+            },
             onAddStuffClick = onAddStuffClick,
             modifier = modifier,
         )
@@ -61,13 +64,14 @@ fun PlaceDetailsStuffList(
             .navigationBarsPadding(),
     ) {
         items(
-            items = stuff, key = { it.id }
+            items = stuff,
+            key = { it.id },
         ) {
             PlaceDetailsStuffListItem(
                 name = it.name,
                 // Only the "All" list mixes sub-places, so only it needs the label.
                 subPlaceName = if (isAllSelected) subPlaceNameById[it.subPlaceId] else null,
-                onDeleteStuffClick = { onDeleteStuffClick(it.id) }
+                onDeleteStuffClick = { onDeleteStuffClick(it.id) },
             )
         }
 
@@ -93,7 +97,7 @@ private fun PlaceDetailsStuffEmptyState(
     Column(
         verticalArrangement = Arrangement.spacedBy(
             space = 32.dp,
-            alignment = Alignment.CenterVertically
+            alignment = Alignment.CenterVertically,
         ),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -127,14 +131,14 @@ private fun PlaceDetailsStuffListItem(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         HorizontalDivider(
             thickness = 1.dp,
             color = MaterialTheme.colorScheme.outline,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 44.dp)
+                .padding(horizontal = 44.dp),
         )
 
         Column(
@@ -145,9 +149,9 @@ private fun PlaceDetailsStuffListItem(
                     indication = null,
                     interactionSource = null,
                     onClick = {},
-                    onLongClick = onDeleteStuffClick
+                    onLongClick = onDeleteStuffClick,
                 )
-                .padding(horizontal = 32.dp, vertical = 12.dp)
+                .padding(horizontal = 32.dp, vertical = 12.dp),
         ) {
             Text(
                 text = name,

@@ -11,7 +11,7 @@ interface MutableSubPlaceDataSource {
 }
 
 class MutableSubPlaceDataSourceImpl(
-    val subPlaceDao: SubPlaceDao
+    val subPlaceDao: SubPlaceDao,
 ) : MutableSubPlaceDataSource {
     override suspend fun addSubPlace(subPlace: SubPlaceEntity): Long =
         subPlaceDao.addSubPlace(subPlace = subPlace)

@@ -85,10 +85,16 @@ private fun SubPlaceChip(
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(size = 16.dp)
-    val containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer
-    else MaterialTheme.colorScheme.surfaceVariant
-    val contentColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer
-    else MaterialTheme.colorScheme.onSurfaceVariant
+    val containerColor = if (selected) {
+        MaterialTheme.colorScheme.primaryContainer
+    } else {
+        MaterialTheme.colorScheme.surfaceVariant
+    }
+    val contentColor = if (selected) {
+        MaterialTheme.colorScheme.onPrimaryContainer
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    }
     // Captured so the semantics block below is not assigning `selected` to itself.
     val isSelected = selected
 
@@ -100,8 +106,11 @@ private fun SubPlaceChip(
             .background(color = containerColor, shape = shape)
             .border(
                 width = if (selected) 2.dp else 1.dp,
-                color = if (selected) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.outline,
+                color = if (selected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.outline
+                },
                 shape = shape,
             )
             .combinedClickable(

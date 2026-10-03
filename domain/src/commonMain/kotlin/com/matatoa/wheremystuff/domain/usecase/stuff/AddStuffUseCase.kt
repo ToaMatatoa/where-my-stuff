@@ -5,7 +5,7 @@ import com.matatoa.wheremystuff.domain.mapper.toStuffEntity
 import com.matatoa.wheremystuff.domain.model.StuffData
 
 class AddStuffUseCase(
-    val stuffRepository: StuffRepository
+    val stuffRepository: StuffRepository,
 ) {
     suspend operator fun invoke(stuff: StuffData) =
         stuffRepository.addStuff(stuff = stuff.toStuffEntity())

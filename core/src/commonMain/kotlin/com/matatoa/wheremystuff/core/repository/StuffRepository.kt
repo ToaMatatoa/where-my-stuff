@@ -14,7 +14,7 @@ interface StuffRepository {
 
 class StuffRepositoryImpl(
     val stuffDataSource: StuffDataStore,
-    val mutableStuffDataSource: MutableStuffDataSource
+    val mutableStuffDataSource: MutableStuffDataSource,
 ) : StuffRepository {
     override fun getStuffForPlace(placeId: Int): Flow<List<StuffEntity>> =
         stuffDataSource.getStuffForPlace(placeId = placeId)

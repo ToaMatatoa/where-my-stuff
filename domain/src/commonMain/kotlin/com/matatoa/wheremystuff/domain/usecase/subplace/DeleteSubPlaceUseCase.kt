@@ -3,7 +3,7 @@ package com.matatoa.wheremystuff.domain.usecase.subplace
 import com.matatoa.wheremystuff.core.repository.SubPlaceRepository
 
 class DeleteSubPlaceUseCase(
-    val subPlaceRepository: SubPlaceRepository
+    val subPlaceRepository: SubPlaceRepository,
 ) {
     suspend operator fun invoke(id: Int) =
         subPlaceRepository.deleteSubPlace(id = id)

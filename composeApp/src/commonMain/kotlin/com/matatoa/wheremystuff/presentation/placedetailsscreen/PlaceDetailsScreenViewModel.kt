@@ -32,7 +32,7 @@ class PlaceDetailsScreenViewModel(
     private val updateSubPlaceDescriptionUseCase: UpdateSubPlaceDescriptionUseCase,
     private val deleteSubPlaceUseCase: DeleteSubPlaceUseCase,
     private val addStuffUseCase: AddStuffUseCase,
-    private val deleteStuffUseCase: DeleteStuffUseCase
+    private val deleteStuffUseCase: DeleteStuffUseCase,
 ) : ViewModel() {
     private val selectedSubPlaceId: MutableStateFlow<Int?> = MutableStateFlow(value = null)
 
@@ -62,13 +62,13 @@ class PlaceDetailsScreenViewModel(
                 },
                 subPlaceDescription = draft ?: savedDescription,
                 isSubPlaceDescriptionShown = savedDescription.isNotEmpty() ||
-                        descriptionEdit.isAdding,
+                    descriptionEdit.isAdding,
                 isSubPlaceDescriptionChanged = draft != null && draft.trim() != savedDescription,
             )
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(stopTimeoutMillis = STOP_TIME_OUT_MILLIS),
-            initialValue = PlaceScreenState(isLoading = true)
+            initialValue = PlaceScreenState(isLoading = true),
         )
 
     fun selectSubPlace(id: Int?) {
@@ -101,8 +101,8 @@ class PlaceDetailsScreenViewModel(
         val newSubPlaceId = addSubPlaceUseCase.invoke(
             subPlace = SubPlaceData(
                 placeId = placeId,
-                name = name
-            )
+                name = name,
+            ),
         )
 
         selectSubPlace(id = newSubPlaceId)
@@ -118,8 +118,8 @@ class PlaceDetailsScreenViewModel(
         addStuffUseCase.invoke(
             stuff = StuffData(
                 subPlaceId = subPlaceId,
-                name = name
-            )
+                name = name,
+            ),
         )
     }
 

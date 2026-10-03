@@ -23,14 +23,14 @@ fun StartScreenRoot(
             viewModel.addPlace(
                 PlaceData(
                     name = placeName,
-                    iconName = placeIconName
-                )
+                    iconName = placeIconName,
+                ),
             )
         },
         onDeletePlace = {
             viewModel.deletePlace(id = it)
         },
         modifier = modifier
-            .background(color = MaterialTheme.colorScheme.background)
+            .background(color = MaterialTheme.colorScheme.background),
     )
 }

@@ -9,7 +9,7 @@ interface MutablePlaceDataSource {
 }
 
 class MutablePlaceDataSourceImpl(
-    val placeDao: PlaceDao
+    val placeDao: PlaceDao,
 ) : MutablePlaceDataSource {
     override suspend fun addPlace(place: PlaceEntity) =
         placeDao.addPlace(place = place)

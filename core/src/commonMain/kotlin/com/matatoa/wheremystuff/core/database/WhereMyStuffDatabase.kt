@@ -12,6 +12,7 @@ import com.matatoa.wheremystuff.core.database.dao.SubPlaceDao
 import com.matatoa.wheremystuff.core.database.entity.PlaceEntity
 import com.matatoa.wheremystuff.core.database.entity.StuffEntity
 import com.matatoa.wheremystuff.core.database.entity.SubPlaceEntity
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 
@@ -33,11 +34,14 @@ expect object AppDatabaseConstructor : RoomDatabaseConstructor<WhereMyStuffDatab
     override fun initialize(): WhereMyStuffDatabase
 }
 
-fun getRoomDatabase(builder: RoomDatabase.Builder<WhereMyStuffDatabase>): WhereMyStuffDatabase =
+fun getRoomDatabase(
+    builder: RoomDatabase.Builder<WhereMyStuffDatabase>,
+    queryDispatcher: CoroutineDispatcher = Dispatchers.IO,
+): WhereMyStuffDatabase =
     builder
         .fallbackToDestructiveMigration(dropAllTables = true)
         .setDriver(BundledSQLiteDriver())
-        .setQueryCoroutineContext(Dispatchers.IO)
+        .setQueryCoroutineContext(queryDispatcher)
         .build()
 
 fun getPlaceDao(whereMyStuffDatabase: WhereMyStuffDatabase) = whereMyStuffDatabase.getPlaceDao()

@@ -14,7 +14,7 @@ interface PlaceRepository {
 
 class PlaceRepositoryImpl(
     val placeDataSource: PlaceDataStore,
-    val mutablePlaceDataSource: MutablePlaceDataSource
+    val mutablePlaceDataSource: MutablePlaceDataSource,
 ) : PlaceRepository {
     override fun getAllPlaces(): Flow<List<PlaceEntity>> =
         placeDataSource.getAllPlaces()

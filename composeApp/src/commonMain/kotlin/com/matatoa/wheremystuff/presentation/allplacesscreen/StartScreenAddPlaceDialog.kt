@@ -10,6 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.maxLength
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +22,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.matatoa.wheremystuff.EMPTY_STRING
 import com.matatoa.wheremystuff.NEW_PLACE_LENGTH
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.drop
 import org.jetbrains.compose.resources.stringResource
 import wheremystuff.composeapp.generated.resources.Res
 import wheremystuff.composeapp.generated.resources.all_places_add_place
@@ -51,6 +59,17 @@ fun ShowAddPlaceDialog(
 ) {
     if (!show) return
 
+    // The field owns its text and cursor. With the value/onValueChange overload the
+    // cursor is reset to the start on iOS after every keystroke, so letters typed after
+    // the first one land in front of it ("Home" shows up as "omeH").
+    val nameState = rememberTextFieldState(initialText = placeName)
+    val currentOnPlaceNameChange by rememberUpdatedState(newValue = onPlaceNameChange)
+    LaunchedEffect(nameState) {
+        snapshotFlow { nameState.text.toString() }
+            .drop(count = 1)
+            .collect { currentOnPlaceNameChange(it) }
+    }
+
     val nameFocusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
         delay(timeMillis = 100L)
@@ -67,28 +86,27 @@ fun ShowAddPlaceDialog(
                 verticalArrangement = Arrangement.spacedBy(space = 20.dp),
             ) {
                 OutlinedTextField(
-                    value = placeName,
-                    onValueChange = {
-                        if (it.length <= NEW_PLACE_LENGTH)
-                            onPlaceNameChange(it)
-                    },
-                    singleLine = true,
+                    state = nameState,
+                    inputTransformation = InputTransformation.maxLength(
+                        maxLength = NEW_PLACE_LENGTH,
+                    ),
+                    lineLimits = TextFieldLineLimits.SingleLine,
                     isError = isNameTaken,
                     label = { Text(text = stringResource(Res.string.all_places_name_label)) },
                     supportingText =
-                        if (isNameTaken) {
-                            { Text(text = stringResource(Res.string.all_places_name_taken)) }
-                        } else if (placeName.isNotEmpty()) {
-                            {
-                                Text(
-                                    text = "${placeName.length}/$NEW_PLACE_LENGTH",
-                                    textAlign = TextAlign.End,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            }
-                        } else {
-                            null
-                        },
+                    if (isNameTaken) {
+                        { Text(text = stringResource(Res.string.all_places_name_taken)) }
+                    } else if (nameState.text.isNotEmpty()) {
+                        {
+                            Text(
+                                text = "${nameState.text.length}/$NEW_PLACE_LENGTH",
+                                textAlign = TextAlign.End,
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        }
+                    } else {
+                        null
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(focusRequester = nameFocusRequester),
@@ -103,7 +121,15 @@ fun ShowAddPlaceDialog(
                 AddPlaceIconGrid(
                     selectedIconName = placeIconName,
                     onIconClick = { iconName ->
-                        onPlaceIconNameChange(if (placeIconName == iconName) EMPTY_STRING else iconName)
+                        onPlaceIconNameChange(
+                            if (placeIconName ==
+                                iconName
+                            ) {
+                                EMPTY_STRING
+                            } else {
+                                iconName
+                            },
+                        )
                     },
                 )
             }
@@ -111,7 +137,7 @@ fun ShowAddPlaceDialog(
         confirmButton = {
             TextButton(
                 onClick = onConfirm,
-                enabled = placeName.isNotBlank() && !isNameTaken,
+                enabled = nameState.text.isNotBlank() && !isNameTaken,
             ) {
                 Text(text = stringResource(Res.string.common_add))
             }
@@ -160,10 +186,16 @@ private fun AddPlaceIconCell(
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(size = 12.dp)
-    val containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer
-    else MaterialTheme.colorScheme.surfaceVariant
-    val contentColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer
-    else MaterialTheme.colorScheme.onSurfaceVariant
+    val containerColor = if (selected) {
+        MaterialTheme.colorScheme.primaryContainer
+    } else {
+        MaterialTheme.colorScheme.surfaceVariant
+    }
+    val contentColor = if (selected) {
+        MaterialTheme.colorScheme.onPrimaryContainer
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -173,8 +205,11 @@ private fun AddPlaceIconCell(
             .background(color = containerColor, shape = shape)
             .border(
                 width = if (selected) 2.dp else 1.dp,
-                color = if (selected) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.outline,
+                color = if (selected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.outline
+                },
                 shape = shape,
             )
             .clickable(onClick = onClick),

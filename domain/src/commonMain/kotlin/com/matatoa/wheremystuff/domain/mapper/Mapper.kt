@@ -11,13 +11,13 @@ fun PlaceEntity.toPlaceData(): PlaceData =
     PlaceData(
         id = id,
         name = name,
-        iconName = iconName
+        iconName = iconName,
     )
 
 fun PlaceData.toPlaceEntity(): PlaceEntity =
     PlaceEntity(
         name = name,
-        iconName = iconName
+        iconName = iconName,
     )
 
 fun SubPlaceEntity.toSubPlaceData(): SubPlaceData =
@@ -25,7 +25,7 @@ fun SubPlaceEntity.toSubPlaceData(): SubPlaceData =
         id = id,
         placeId = placeId,
         name = name,
-        description = description
+        description = description,
     )
 
 /** Leaves the id at its default so Room generates one on insert. */
@@ -33,19 +33,19 @@ fun SubPlaceData.toSubPlaceEntity(): SubPlaceEntity =
     SubPlaceEntity(
         placeId = placeId,
         name = name,
-        description = description
+        description = description,
     )
 
 fun StuffEntity.toStuffData(): StuffData =
     StuffData(
         id = id,
         subPlaceId = subPlaceId,
-        name = name
+        name = name,
     )
 
 /** Leaves the id at its default so Room generates one on insert. */
 fun StuffData.toStuffEntity(): StuffEntity =
     StuffEntity(
         subPlaceId = subPlaceId,
-        name = name
+        name = name,
     )

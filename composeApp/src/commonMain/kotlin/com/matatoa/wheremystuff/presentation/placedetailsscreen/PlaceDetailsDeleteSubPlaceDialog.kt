@@ -30,8 +30,8 @@ fun ShowDeleteSubPlaceDialog(
             Text(
                 text = stringResource(
                     Res.string.place_details_delete_sub_place_dialog_text,
-                    subPlaceName
-                )
+                    subPlaceName,
+                ),
             )
         },
         confirmButton = {

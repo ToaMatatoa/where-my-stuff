@@ -9,7 +9,7 @@ interface StuffDataStore {
 }
 
 class StuffDataStoreImpl(
-    val stuffDao: StuffDao
+    val stuffDao: StuffDao,
 ) : StuffDataStore {
     override fun getStuffForPlace(placeId: Int): Flow<List<StuffEntity>> =
         stuffDao.getStuffForPlace(placeId = placeId)

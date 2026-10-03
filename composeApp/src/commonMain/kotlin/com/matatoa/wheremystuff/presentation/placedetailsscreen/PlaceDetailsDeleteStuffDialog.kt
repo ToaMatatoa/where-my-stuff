@@ -30,8 +30,8 @@ fun ShowDeleteStuffDialog(
             Text(
                 text = stringResource(
                     Res.string.place_details_delete_stuff_dialog_text,
-                    stuffName
-                )
+                    stuffName,
+                ),
             )
         },
         confirmButton = {
