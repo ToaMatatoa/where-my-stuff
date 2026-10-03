@@ -1,7 +1,7 @@
 package com.matatoa.wheremystuff.di
 
-import com.matatoa.wheremystuff.presentation.placedetailsscreen.PlaceDetailsScreenViewModel
 import com.matatoa.wheremystuff.presentation.allplacesscreen.StartScreenViewModel
+import com.matatoa.wheremystuff.presentation.placedetailsscreen.PlaceDetailsScreenViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -20,7 +20,7 @@ val viewModelModule = module {
             updateSubPlaceDescriptionUseCase = get(),
             deleteSubPlaceUseCase = get(),
             addStuffUseCase = get(),
-            deleteStuffUseCase = get()
+            deleteStuffUseCase = get(),
         )
     }
 }

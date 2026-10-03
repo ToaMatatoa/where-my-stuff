@@ -28,8 +28,8 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.key
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
@@ -67,9 +67,7 @@ fun PlaceDetailsSubPlaceDescription(
     description: String,
     isShown: Boolean,
     isChanged: Boolean,
-    onAddClick: () -> Unit,
-    onDescriptionChange: (String) -> Unit,
-    onSaveClick: () -> Unit,
+    actions: SubPlaceDescriptionActions,
     modifier: Modifier = Modifier,
 ) {
     if (isShown) {
@@ -77,14 +75,14 @@ fun PlaceDetailsSubPlaceDescription(
             SubPlaceDescriptionField(
                 description = description,
                 isChanged = isChanged,
-                onDescriptionChange = onDescriptionChange,
-                onSaveClick = onSaveClick,
+                onDescriptionChange = actions.onChange,
+                onSaveClick = actions.onSave,
                 modifier = modifier,
             )
         }
     } else {
         AddDescriptionButton(
-            onClick = onAddClick,
+            onClick = actions.onAddClick,
             modifier = modifier,
         )
     }
@@ -178,7 +176,9 @@ private fun SubPlaceDescriptionField(
     ) {
         OutlinedTextField(
             state = descriptionState,
-            inputTransformation = InputTransformation.maxLength(maxLength = SUB_PLACE_DESCRIPTION_LENGTH),
+            inputTransformation = InputTransformation.maxLength(
+                maxLength = SUB_PLACE_DESCRIPTION_LENGTH,
+            ),
             lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 2),
             shape = RoundedCornerShape(size = 24.dp),
             textStyle = MaterialTheme.typography.bodyLarge,
@@ -260,7 +260,7 @@ private fun SaveDescriptionButton(
             Icon(
                 imageVector = TablerIcons.DeviceFloppy,
                 contentDescription = stringResource(
-                    Res.string.place_details_save_sub_place_description
+                    Res.string.place_details_save_sub_place_description,
                 ),
                 tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier

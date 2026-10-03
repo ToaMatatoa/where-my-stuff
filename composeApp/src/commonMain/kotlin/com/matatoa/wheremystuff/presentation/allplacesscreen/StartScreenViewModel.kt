@@ -18,29 +18,29 @@ import kotlinx.coroutines.launch
 class StartScreenViewModel(
     getAllPlacesUseCase: GetAllPlacesUseCase,
     private val addPlaceUseCase: AddPlaceUseCase,
-    private val deletePlaceUseCase: DeletePlaceUseCase
+    private val deletePlaceUseCase: DeletePlaceUseCase,
 ) : ViewModel() {
     private val _state: MutableStateFlow<StartScreenState> =
         MutableStateFlow(value = StartScreenState())
     val state: StateFlow<StartScreenState> =
         combine(
             flow = getAllPlacesUseCase.invoke(),
-            flow2 = _state
+            flow2 = _state,
         ) { places, currentState ->
             currentState.copy(
                 isLoading = false,
-                places = places
+                places = places,
             )
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(stopTimeoutMillis = STOP_TIME_OUT_MILLIS),
-            initialValue = StartScreenState(isLoading = true)
+            initialValue = StartScreenState(isLoading = true),
         )
 
     fun addPlace(place: PlaceData) {
         viewModelScope.launch {
             addPlaceUseCase.invoke(
-                place = place
+                place = place,
             )
         }
     }

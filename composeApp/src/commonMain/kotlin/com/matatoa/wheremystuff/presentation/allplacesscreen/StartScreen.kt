@@ -60,7 +60,7 @@ fun StartScreen(
     val isPlaceNameTaken = remember(placeName, state.places) {
         val trimmedName = placeName.trim()
         trimmedName.isNotEmpty() &&
-                state.places.any { it.name.equals(other = trimmedName, ignoreCase = true) }
+            state.places.any { it.name.equals(other = trimmedName, ignoreCase = true) }
     }
 
     var placeIdToDelete by rememberSaveable { mutableStateOf<Int?>(value = null) }
@@ -103,7 +103,7 @@ fun StartScreen(
             showAddPlaceDialog = false
             placeName = EMPTY_STRING
             placeIconName = EMPTY_STRING
-        }
+        },
     )
 
     ShowDeletePlaceDialog(
@@ -112,7 +112,7 @@ fun StartScreen(
             placeIdToDelete?.let(onDeletePlace)
             placeIdToDelete = null
         },
-        onDismiss = { placeIdToDelete = null }
+        onDismiss = { placeIdToDelete = null },
     )
 }
 
@@ -121,20 +121,20 @@ private fun StartScreenBase(
     state: StartScreenState,
     onOpenPlaceDetailsClick: (Int) -> Unit,
     onDeletePlaceClick: (Int) -> Unit,
-    onAddNewPlaceClick: () -> Unit
+    onAddNewPlaceClick: () -> Unit,
 ) {
     when {
         state.isLoading -> StartScreenLoadingState()
 
         state.places.isEmpty() -> StartScreenEmptyState(
-            onAddNewPlaceClick = onAddNewPlaceClick
+            onAddNewPlaceClick = onAddNewPlaceClick,
         )
 
         else -> StartScreenCompletedState(
             places = state.places,
             onOpenPlaceDetailsClick = onOpenPlaceDetailsClick,
             onAddNewPlaceClick = onAddNewPlaceClick,
-            onDeletePlaceClick = onDeletePlaceClick
+            onDeletePlaceClick = onDeletePlaceClick,
         )
     }
 }
@@ -165,7 +165,7 @@ private fun StartScreenEmptyState(
     Column(
         verticalArrangement = Arrangement.spacedBy(
             space = 32.dp,
-            alignment = Alignment.CenterVertically
+            alignment = Alignment.CenterVertically,
         ),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -193,22 +193,23 @@ private fun StartScreenCompletedState(
     onOpenPlaceDetailsClick: (Int) -> Unit,
     onDeletePlaceClick: (Int) -> Unit,
     onAddNewPlaceClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(top = 16.dp),
         modifier = modifier
             .fillMaxSize()
-            .navigationBarsPadding()
+            .navigationBarsPadding(),
     ) {
         items(
-            items = places, key = { it.id }
+            items = places,
+            key = { it.id },
         ) {
             StartScreenBaseCompletedListItem(
                 name = it.name,
                 iconName = it.iconName,
                 onOpenPlaceDetailsClick = { onOpenPlaceDetailsClick(it.id) },
-                onDeletePlaceClick = { onDeletePlaceClick(it.id) }
+                onDeletePlaceClick = { onDeletePlaceClick(it.id) },
             )
         }
 
@@ -229,25 +230,25 @@ private fun StartScreenBaseCompletedListItem(
     iconName: String,
     onOpenPlaceDetailsClick: () -> Unit,
     onDeletePlaceClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         HorizontalDivider(
             thickness = 1.dp,
             color = MaterialTheme.colorScheme.outline,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 40.dp)
+                .padding(horizontal = 40.dp),
         )
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
-                alignment = Alignment.CenterHorizontally
+                alignment = Alignment.CenterHorizontally,
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -255,9 +256,9 @@ private fun StartScreenBaseCompletedListItem(
                 .clip(shape = RoundedCornerShape(size = 16.dp))
                 .combinedClickable(
                     onClick = onOpenPlaceDetailsClick,
-                    onLongClick = onDeletePlaceClick
+                    onLongClick = onDeletePlaceClick,
                 )
-                .padding(horizontal = 8.dp, vertical = 16.dp)
+                .padding(horizontal = 8.dp, vertical = 16.dp),
         ) {
             AnimatedVisibility(visible = iconName.isNotEmpty()) {
                 Icon(
@@ -265,7 +266,7 @@ private fun StartScreenBaseCompletedListItem(
                     contentDescription = stringResource(Res.string.common_place_icon),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
-                        .size(size = 32.dp)
+                        .size(size = 32.dp),
                 )
             }
 
@@ -274,7 +275,7 @@ private fun StartScreenBaseCompletedListItem(
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }
@@ -289,28 +290,28 @@ fun StartScreenPreview() {
                 places = listOf(
                     PlaceData(
                         name = "House",
-                        iconName = "House"
+                        iconName = "House",
                     ),
                     PlaceData(
                         id = 1,
                         name = "Bank",
-                        iconName = ""
+                        iconName = "",
                     ),
                     PlaceData(
                         id = 3,
                         name = "House",
-                        iconName = "House"
+                        iconName = "House",
                     ),
                     PlaceData(
                         id = 4,
                         name = "Bank",
-                        iconName = ""
-                    )
-                )
+                        iconName = "",
+                    ),
+                ),
             ),
             onOpenPlaceDetails = {},
             onSaveNewPlace = { _, _ -> },
-            onDeletePlace = {}
+            onDeletePlace = {},
         )
     }
 }

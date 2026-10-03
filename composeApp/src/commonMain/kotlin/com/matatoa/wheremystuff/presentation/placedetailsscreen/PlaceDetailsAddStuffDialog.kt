@@ -68,17 +68,17 @@ fun ShowAddStuffDialog(
                 lineLimits = TextFieldLineLimits.SingleLine,
                 label = { Text(text = stringResource(Res.string.place_details_stuff_name_label)) },
                 supportingText =
-                    if (nameState.text.isNotEmpty()) {
-                        {
-                            Text(
-                                text = "${nameState.text.length}/$NEW_STUFF_LENGTH",
-                                textAlign = TextAlign.End,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                    } else {
-                        null
-                    },
+                if (nameState.text.isNotEmpty()) {
+                    {
+                        Text(
+                            text = "${nameState.text.length}/$NEW_STUFF_LENGTH",
+                            textAlign = TextAlign.End,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                } else {
+                    null
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester = nameFocusRequester),

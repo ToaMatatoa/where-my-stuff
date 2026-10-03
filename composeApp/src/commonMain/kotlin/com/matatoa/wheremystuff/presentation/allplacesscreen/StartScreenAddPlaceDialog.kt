@@ -87,24 +87,26 @@ fun ShowAddPlaceDialog(
             ) {
                 OutlinedTextField(
                     state = nameState,
-                    inputTransformation = InputTransformation.maxLength(maxLength = NEW_PLACE_LENGTH),
+                    inputTransformation = InputTransformation.maxLength(
+                        maxLength = NEW_PLACE_LENGTH,
+                    ),
                     lineLimits = TextFieldLineLimits.SingleLine,
                     isError = isNameTaken,
                     label = { Text(text = stringResource(Res.string.all_places_name_label)) },
                     supportingText =
-                        if (isNameTaken) {
-                            { Text(text = stringResource(Res.string.all_places_name_taken)) }
-                        } else if (nameState.text.isNotEmpty()) {
-                            {
-                                Text(
-                                    text = "${nameState.text.length}/$NEW_PLACE_LENGTH",
-                                    textAlign = TextAlign.End,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            }
-                        } else {
-                            null
-                        },
+                    if (isNameTaken) {
+                        { Text(text = stringResource(Res.string.all_places_name_taken)) }
+                    } else if (nameState.text.isNotEmpty()) {
+                        {
+                            Text(
+                                text = "${nameState.text.length}/$NEW_PLACE_LENGTH",
+                                textAlign = TextAlign.End,
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        }
+                    } else {
+                        null
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(focusRequester = nameFocusRequester),
@@ -119,7 +121,15 @@ fun ShowAddPlaceDialog(
                 AddPlaceIconGrid(
                     selectedIconName = placeIconName,
                     onIconClick = { iconName ->
-                        onPlaceIconNameChange(if (placeIconName == iconName) EMPTY_STRING else iconName)
+                        onPlaceIconNameChange(
+                            if (placeIconName ==
+                                iconName
+                            ) {
+                                EMPTY_STRING
+                            } else {
+                                iconName
+                            },
+                        )
                     },
                 )
             }
@@ -176,10 +186,16 @@ private fun AddPlaceIconCell(
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(size = 12.dp)
-    val containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer
-    else MaterialTheme.colorScheme.surfaceVariant
-    val contentColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer
-    else MaterialTheme.colorScheme.onSurfaceVariant
+    val containerColor = if (selected) {
+        MaterialTheme.colorScheme.primaryContainer
+    } else {
+        MaterialTheme.colorScheme.surfaceVariant
+    }
+    val contentColor = if (selected) {
+        MaterialTheme.colorScheme.onPrimaryContainer
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -189,8 +205,11 @@ private fun AddPlaceIconCell(
             .background(color = containerColor, shape = shape)
             .border(
                 width = if (selected) 2.dp else 1.dp,
-                color = if (selected) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.outline,
+                color = if (selected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.outline
+                },
                 shape = shape,
             )
             .clickable(onClick = onClick),

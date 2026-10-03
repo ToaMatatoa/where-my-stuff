@@ -24,7 +24,9 @@ import compose.icons.tablericons.User
  * grid from [entries]. A place with no chosen icon or an unrecognized name renders
  * [FALLBACK] via [iconFor].
  */
-enum class PlaceIcon(val icon: ImageVector) {
+enum class PlaceIcon(
+    val icon: ImageVector,
+) {
     Flat(icon = TablerIcons.Building),
     House(icon = TablerIcons.Home2),
     Balcony(icon = TablerIcons.BuildingSkyscraper),
@@ -36,7 +38,8 @@ enum class PlaceIcon(val icon: ImageVector) {
     Store(icon = TablerIcons.BuildingStore),
     Warehouse(icon = TablerIcons.BuildingWarehouse),
     Cottage(icon = TablerIcons.BuildingCottage),
-    Bank(icon = TablerIcons.BuildingBank);
+    Bank(icon = TablerIcons.BuildingBank),
+    ;
 
     companion object {
         /** Rendered for a place with no chosen icon or an unrecognized name. */
