@@ -3,9 +3,9 @@ android-compileSdk = "37"
 android-minSdk = "29"
 android-targetSdk = "37"
 
-agp = "9.4.1"
-kotlin = "2.4.20"
-composeMultiplatform = "1.12.1"
+agp = "9.5.0"
+kotlin = "2.4.21"
+composeMultiplatform = "1.12.2"
 material3 = "1.12.0-alpha03"
 kotlinx-coroutines = "1.11.0"
 androidx-activity = "1.13.0"
@@ -13,19 +13,19 @@ androidx-appcompat = "1.8.0"
 androidx-core = "1.19.1"
 androidx-splashscreen = "1.2.0"
 androidx-lifecycle = "2.11.0"
-kotlinx-serialization = "1.11.0"
+kotlinx-serialization = "1.12.0"
 # koin di
 koin-bom = "4.2.2"
 # room and sqlite db
 room = "2.8.5"
-ksp = "2.3.12"
+ksp = "2.3.13"
 sqlite = "2.7.1"
 # navigation
-navigation3 = "1.1.2"
+navigation3 = "1.2.0"
 # icons
 icons = "1.1.1"
 # static analysis
-ktlint = "1.6.0"
+ktlint = "1.8.0"
 ktlintGradle = "14.2.0"
 detekt = "2.0.0-alpha.6"
 #test

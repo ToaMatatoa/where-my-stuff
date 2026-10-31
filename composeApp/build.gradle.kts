@@ -107,6 +107,11 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        // AGP 9.5's Compose Preview tasks refuse to be created without this, which
+        // breaks `allTests` at configuration time.
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 dependencies {

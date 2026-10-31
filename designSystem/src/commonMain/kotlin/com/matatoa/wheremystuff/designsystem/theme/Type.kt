@@ -31,43 +31,43 @@ fun InterFontFamily() =
 fun AppTypography(): Typography {
     val inter = InterFontFamily()
     return Typography(
-        /** Screen titles — e.g. top-bar title, onboarding headline */
+        // Screen titles — e.g. top-bar title, onboarding headline
         headlineLarge = TextStyle(
             fontFamily = inter,
             fontWeight = FontWeight.SemiBold,
             fontSize = 32.sp,
         ),
-        /** Dialog titles */
+        // Dialog titles
         headlineSmall = TextStyle(
             fontFamily = inter,
             fontWeight = FontWeight.SemiBold,
             fontSize = 24.sp,
         ),
-        /** Card titles — e.g. adventure card name, section header */
+        // Card titles — e.g. adventure card name, section header
         titleMedium = TextStyle(
             fontFamily = inter,
             fontWeight = FontWeight.Medium,
             fontSize = 24.sp,
         ),
-        /** Primary descriptions — e.g. card body text, instructions */
+        // Primary descriptions — e.g. card body text, instructions
         bodyLarge = TextStyle(
             fontFamily = inter,
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
         ),
-        /** Secondary info — e.g. timestamps, metadata, helper text */
+        // Secondary info — e.g. timestamps, metadata, helper text
         bodyMedium = TextStyle(
             fontFamily = inter,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
         ),
-        /** Button labels — e.g. dialog confirm / cancel actions */
+        // Button labels — e.g. dialog confirm / cancel actions
         labelLarge = TextStyle(
             fontFamily = inter,
             fontWeight = FontWeight.Medium,
             fontSize = 16.sp,
         ),
-        /** Tab labels, chips, badges, captions */
+        // Tab labels, chips, badges, captions
         labelSmall = TextStyle(
             fontFamily = inter,
             fontWeight = FontWeight.Medium,

@@ -75,23 +75,25 @@ fun ShowAddSubPlaceDialog(
                     Text(text = stringResource(Res.string.place_details_sub_place_name_label))
                 },
                 supportingText =
-                if (isNameTaken) {
-                    {
-                        Text(
-                            text = stringResource(Res.string.place_details_sub_place_name_taken),
-                        )
-                    }
-                } else if (nameState.text.isNotEmpty()) {
-                    {
-                        Text(
-                            text = "${nameState.text.length}/$NEW_SUB_PLACE_LENGTH",
-                            textAlign = TextAlign.End,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
-                } else {
-                    null
-                },
+                    if (isNameTaken) {
+                        {
+                            Text(
+                                text = stringResource(
+                                    Res.string.place_details_sub_place_name_taken,
+                                ),
+                            )
+                        }
+                    } else if (nameState.text.isNotEmpty()) {
+                        {
+                            Text(
+                                text = "${nameState.text.length}/$NEW_SUB_PLACE_LENGTH",
+                                textAlign = TextAlign.End,
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        }
+                    } else {
+                        null
+                    },
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester = nameFocusRequester),
